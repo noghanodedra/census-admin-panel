@@ -1,3 +1,19 @@
 {
-    "presets": ["@babel/preset-react", "@babel/preset-env"]
+    "presets": ["@babel/preset-react", "@babel/preset-env"],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "assets": "./src/assets",
+                    "components": "./src/components",
+                    "core": "./src/core",
+                    "contexts": "./src/contexts",
+                    "features": "./src/features",
+                    "hooks": "./src/hooks",
+                    "utils": "./src/utils"
+                }
+            }
+        ]
+    ]
 }

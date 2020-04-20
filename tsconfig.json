@@ -4,11 +4,14 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "es6",
         "jsx": "react",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         // Base directory to resolve non-relative module names.
-        "baseUrl": "src"
-    }
+        "baseUrl": "src",
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules"]
 }
