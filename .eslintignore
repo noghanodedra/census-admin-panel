@@ -7,5 +7,3 @@ fixtures
 shared-fixtures
 coverage
 __snapshots__
-
-packages/eslint-plugin-tslint/tests

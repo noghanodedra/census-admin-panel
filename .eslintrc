@@ -1,8 +1,7 @@
 // .eslintrc
 {
-    "plugins": ["prettier", "@typescript-eslint", "react", "eslint:recommended",
-        "plugin:react/recommended"],
-    "extends": ["airbnb-typescript", "react-app", "prettier", "plugin:react/recommended"],
+    "plugins": ["prettier", "@typescript-eslint", "react"],
+    "extends": ["airbnb-typescript", "react-app", "plugin:react/recommended", "eslint:recommended"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "./tsconfig.json"
@@ -16,7 +15,14 @@
     },
     "rules": {
         "object-curly-spacing": ["warn", "always"],
-        "no-unused-vars": "off",
+        "react/jsx-uses-react": 1,
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "none"
+            }
+        ],
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
@@ -33,7 +39,7 @@
         "max-len": [
             "warn",
             {
-                "code": 80,
+                "code": 120,
                 "ignoreStrings": true,
                 "ignoreTemplateLiterals": true,
                 "ignoreComments": true

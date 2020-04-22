@@ -1,34 +1,19 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';
 
-import { Spinner, LoadingProvider } from 'components';
+import { Spinner } from 'components';
+import AppProviders from 'providers/AppProviders';
 
 import App from './src/App';
-import 'i18n';
+import 'i18n';// https://www.robinwieruch.de/react-internationalization
 
-const cache = new InMemoryCache();
-
-const link = new HttpLink({
-  uri: process.env.GRAPHQL_ENDPOINT,
-});
-
-const client = new ApolloClient({
-  cache,
-  link,
-});
 
 ReactDOM.render(
   <Suspense fallback={null}>
-    <ApolloProvider client={client}>
-      <LoadingProvider>
-        <App />
-        <Spinner />
-      </LoadingProvider>
-    </ApolloProvider>
+    <AppProviders>
+      <App />
+      <Spinner />
+    </AppProviders>
   </Suspense>,
   document.getElementById('root'),
 );

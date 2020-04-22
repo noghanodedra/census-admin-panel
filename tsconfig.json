@@ -11,7 +11,10 @@
         "esModuleInterop": true,
         // Base directory to resolve non-relative module names.
         "baseUrl": "src",
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "removeComments": true,
+        "preserveConstEnums": true
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "**/*.spec.ts"]
 }
