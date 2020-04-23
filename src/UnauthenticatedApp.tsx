@@ -2,7 +2,8 @@ import React, { FunctionComponent } from 'react';
 
 const UnauthenticatedApp: FunctionComponent = ({ children }) => (
   <>
-    <div />
+    <div><p>un-auth</p></div>
+    {children}
   </>
 );
 

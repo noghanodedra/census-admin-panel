@@ -1,7 +1,8 @@
 import React, { createContext } from 'react';
 
 const AuthContext = createContext({
-  data: {},
+  authData: {},
+  setData: (data: never) => {},
   login: () => {},
   logout: () => {},
   register: () => {},
