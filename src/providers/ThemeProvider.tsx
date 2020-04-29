@@ -15,6 +15,7 @@ const ThemeProvider: React.FC = (props) => {
   const [themeName, _setThemeName] = useState(curThemeName);
 
   // Get the theme object by theme name
+  console.log(themeName);
   const theme = themeCreator(themeName);
 
   const setThemeName = (thName: string): void => {

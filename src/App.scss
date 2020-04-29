@@ -5,9 +5,16 @@ body {
 }
 
 .App {
-    align-items: center;
     display: flex;
     justify-content: center;
     padding-top: 10px;
     width: 100%;
+    flex-direction: row;
+    align-items: center;
+}
+
+.MuiCircularProgress-root {
+    left: 50%;
+    position: absolute;
+    top: 35vh;
 }

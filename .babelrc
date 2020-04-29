@@ -13,8 +13,15 @@
                     "features": "./src/features",
                     "hooks": "./src/hooks",
                     "providers": "./src/providers",
+                    "themes": "./src/themes",
                     "utils": "./src/utils"
                 }
+            }
+        ],
+        [
+            "react-intl",
+            {
+                "messagesDir": "./public/"
             }
         ]
     ]

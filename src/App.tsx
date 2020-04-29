@@ -1,16 +1,24 @@
 import React from 'react';
-import { useAuth } from 'providers/AuthProvider';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 
+import AppRouter from 'components/RouterComponent';
 import './App.scss';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
-const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
-const App: React.StatelessComponent<{}> = () => {
-  const auth = useAuth();
-  const comp = auth?.authData ? <AuthenticatedApp /> : <UnauthenticatedApp />;
-  return (<div className="App">{comp}</div>);
-};
+// const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
+// const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
+// https://reacttraining.com/blog/react-router-v5-1/
+
+const App: React.StatelessComponent<{}> = () => (
+  <div className="App">
+    <CssBaseline />
+    <div>
+      <Container>
+        <AppRouter />
+      </Container>
+    </div>
+  </div>
+);
 
 export default App;

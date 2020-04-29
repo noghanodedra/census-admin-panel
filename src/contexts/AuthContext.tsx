@@ -1,11 +1,9 @@
 import React, { createContext } from 'react';
 
 const AuthContext = createContext({
-  authData: {},
-  setData: (data: never) => {},
-  login: () => {},
-  logout: () => {},
-  register: () => {},
+  authData: null,
+  onLogin: (newAuthData: object) => {},
+  onLogout: () => {},
 });
 
 export default AuthContext;

@@ -1,12 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { LOGIN_USER, LOGOUT_USER } from 'constants/graphql-queries-mutations';
+import React, {
+  FunctionComponent, useState, useEffect,
+} from 'react';
 import { AuthContext } from 'contexts';
 
 const AuthProvider: FunctionComponent = ({ children }) => {
-  const [logoutMutation] = useMutation(LOGOUT_USER);
-  const [loginMutation] = useMutation(LOGIN_USER);
-  const [authData, setAuthData] = useState({});
+  const [authData, setAuthData] = useState(null);
 
   // code for pre-loading the user's information if we have their token in
 
@@ -26,15 +24,17 @@ const AuthProvider: FunctionComponent = ({ children }) => {
   //   return <FullPageSpinner />;
   // }
 
-  const setData = (data:never) => {
-    setAuthData(data);
-  };
+  useEffect(() => {
+    // const currentAuthData = someManager.getAuthData();
+    // if (currentAuthData) {
+    //   setAuthData(currentAuthData);
+    // }
+  }, []);
 
-  const login = () => loginMutation; // make a login request
+  const onLogout = () => setAuthData(null);
 
-  const register = () => {}; // register the user
+  const onLogin = (newAuthData: object) => setAuthData(newAuthData);
 
-  const logout = () => logoutMutation; // clear the token in localStorage and the user data
 
   // note, I'm not bothering to optimize this `value` with React.useMemo here
 
@@ -46,10 +46,8 @@ const AuthProvider: FunctionComponent = ({ children }) => {
     <AuthContext.Provider
       value={{
         authData,
-        setData,
-        login,
-        logout,
-        register,
+        onLogout,
+        onLogin,
       }}
     >
       {children}

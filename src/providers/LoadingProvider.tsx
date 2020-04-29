@@ -1,5 +1,6 @@
 import React, { useState, FunctionComponent } from 'react';
 import { LoadingContext } from 'contexts';
+import { ILoadingContext } from 'contexts/LoadingContext';
 
 const LoadingProvider: FunctionComponent = ({ children }) => {
   const showLoading = () => {
@@ -31,7 +32,7 @@ const LoadingProvider: FunctionComponent = ({ children }) => {
     </LoadingContext.Provider>);
 };
 
-const useLoading = () => {
+const useLoading = (): ILoadingContext => {
   const context = React.useContext(LoadingContext);
   if (context === undefined) {
     throw new Error('useLoading must be used within a AppProvider');

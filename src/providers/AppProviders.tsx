@@ -7,18 +7,21 @@ import { AuthProvider } from './AuthProvider';
 import { ThemeProvider } from './ThemeProvider';
 import { UserDetailsProvider } from './UserDetailsProvider';
 
-const client = makeApolloClient();
+const AppProviders: FunctionComponent = ({ children }) => {
+  const client = makeApolloClient();
 
-const AppProviders: FunctionComponent = ({ children }) => (
-  <AuthProvider>
-    <ApolloProvider client={client}>
-      <ThemeProvider>
-        <LoadingProvider>
-          <UserDetailsProvider>{children}</UserDetailsProvider>
-        </LoadingProvider>
-      </ThemeProvider>
-    </ApolloProvider>
-  </AuthProvider>
-);
-
+  return (
+    <AuthProvider>
+      <ApolloProvider client={client}>
+        <ThemeProvider>
+          <LoadingProvider>
+            <UserDetailsProvider>
+              {children}
+            </UserDetailsProvider>
+          </LoadingProvider>
+        </ThemeProvider>
+      </ApolloProvider>
+    </AuthProvider>
+  );
+};
 export default AppProviders;

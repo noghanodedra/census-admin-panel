@@ -3,7 +3,9 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
-        "module": "commonjs",
+        //"module": "commonjs",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "module": "esnext",
         "moduleResolution": "node",
         "target": "es6",
         "jsx": "react",
@@ -14,7 +16,8 @@
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "removeComments": true,
-        "preserveConstEnums": true
+        "preserveConstEnums": true,
+        "types": ["node", "jest"]
     },
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": ["node_modules", "**/*.spec.ts", "*.config.js"]
 }

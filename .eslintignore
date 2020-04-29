@@ -7,3 +7,10 @@ fixtures
 shared-fixtures
 coverage
 __snapshots__
+
+# Ignore not support files
+!.*.js
+.eslintrc
+*.d.ts
+*.config.js.
+webpack

@@ -10,5 +10,7 @@
         "^.+\\.(css|less|scss)$": "babel-jest",
         "^.+\\.(jpg|png|gif|svg)$": "identity-obj-proxy"
     },
+    "moduleDirectories": ["src", "node_modules"],
+    "testMatch": ["**/__tests__ /**/*.ts?(x)", "**/?(*.)+(spec|test).ts?(x)"],
     "verbose": false
 }

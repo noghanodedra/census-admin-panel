@@ -1,6 +1,12 @@
 import React, { createContext } from 'react';
 
-const LoadingContext = createContext({
+export interface ILoadingContext {
+  loadingCount: number;
+  showLoading: () => void;
+  hideLoading: () => void;
+}
+
+const LoadingContext = createContext <ILoadingContext>({
   loadingCount: 0,
   showLoading: () => {},
   hideLoading: () => {},
