@@ -19,8 +19,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoRounded from '@material-ui/icons/InfoRounded';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+import { Namespaces } from 'constants/i18n';
 
 // https://codesandbox.io/s/deopk?file=/demo.js:0-6582
 // https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l
@@ -91,9 +93,11 @@ const useStyles = makeStyles((theme) => ({
 const ResponsiveDrawer = ({ ...props }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation([Namespaces.COMMON]);
+
 
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('Dashboard');
+  const [title, setTitle] = React.useState('pages.dashboard');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -123,7 +127,7 @@ const ResponsiveDrawer = ({ ...props }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" noWrap>
-            {title}
+            {t(`${Namespaces.COMMON}:${title}`)}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -144,7 +148,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         <Divider />
         <List>
           {[
-            { label: 'Dashboard', path: 'home', icon: <HomeIcon /> },
+            { label: 'pages.dashboard', path: 'home', icon: <HomeIcon /> },
             { label: 'About', path: 'about', icon: <InfoRounded /> },
           ].map((item, index) => (
             <Link
@@ -156,7 +160,7 @@ const ResponsiveDrawer = ({ ...props }) => {
             >
               <ListItem button key={item.path} className={classes.listItem} selected={item.label === title}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
+                <ListItemText primary={t(`${Namespaces.COMMON}:${item.label}`)} />
               </ListItem>
             </Link>
           ))}
@@ -167,7 +171,7 @@ const ResponsiveDrawer = ({ ...props }) => {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary={t(`${Namespaces.COMMON}:label.logout`)} />
           </ListItem>
         </List>
       </Drawer>

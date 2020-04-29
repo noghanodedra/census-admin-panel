@@ -12,11 +12,11 @@ i18n
 // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     debug: true,
-    lng: 'en',
+    lng: localStorage.getItem('locale') as string | 'en',
     fallbackLng: 'en',
     whitelist: ['en', 'gu'],
-    ns: ['translation', 'login'],
-    defaultNS: 'translation',
+    ns: ['common', 'login'],
+    defaultNS: 'common',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },

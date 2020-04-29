@@ -1,5 +1,12 @@
 {
-    "login": "પાસવર્ડ",
-    "username": "વપરાશકર્તા નામ",
-    "password": "પાસવર્ડ"
+    "label": {
+        "login": "સાઇન ઇન",
+        "username": "વપરાશકર્તા નામ",
+        "password": "પાસવર્ડ",
+        "forgot_password": "પાસવર્ડ ભૂલી ગયાં છો?"
+    },
+    "button": {
+        "login": "સાઇન ઇન કરો"
+    },
+    "error_messages": {}
 }

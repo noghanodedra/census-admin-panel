@@ -3,6 +3,8 @@ import { MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 
+import { Namespaces } from 'constants/i18n';
+
 const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -15,14 +17,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LocaleDropdown = () => {
-  const { t, i18n } = useTranslation(['translation', 'login']);
+  const { t, i18n } = useTranslation([Namespaces.COMMON]);
   const [currentLocale, setCurrentLocale] = useState('en');
   const classes = useStyles();
-  console.log(t('translation:gu'));
 
   const handleChange = (event: { target: { value: any; }; }) => {
-    setCurrentLocale(event.target.value);
-    i18n.changeLanguage(event.target.value);
+    const code = event.target.value;
+    setCurrentLocale(code);
+    localStorage.setItem('locale', code);
+    i18n.changeLanguage(code);
   };
 
   return (
@@ -33,8 +36,8 @@ const LocaleDropdown = () => {
       onChange={handleChange}
       className={classes.select}
     >
-      <MenuItem value="en">{t('translation:en')}</MenuItem>
-      <MenuItem value="gu">{t('translation:gu')}</MenuItem>
+      <MenuItem value="en">{t(`${Namespaces.COMMON}:en`)}</MenuItem>
+      <MenuItem value="gu">{t(`${Namespaces.COMMON}:gu`)}</MenuItem>
     </Select>
   );
 };

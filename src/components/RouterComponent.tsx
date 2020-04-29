@@ -11,12 +11,12 @@ const AppRouter = () => (
   <div style={style}>
     <Router>
       <Switch>
-        <Page path="/" title="Login" exact component={Login} />
+        <Page path="/" title="pages.login" exact component={Login} />
 
         <Route>
           <ResponsiveDrawer>
             <Switch>
-              <Page path="/home" title="Home" exact component={Dashboard} />
+              <Page path="/home" title="pages.dashboard" exact component={Dashboard} />
               <Page path="/about" title="About" exact component={About} />
             </Switch>
           </ResponsiveDrawer>

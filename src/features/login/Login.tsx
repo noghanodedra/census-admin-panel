@@ -22,6 +22,7 @@ import { LOGIN_USER } from 'constants/graphql-queries-mutations';
 import { Logo, LocaleDropdown } from 'components';
 import { LoadingContext } from 'contexts';
 import { useAuth } from 'providers/AuthProvider';
+import { Namespaces } from 'constants/i18n';
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -49,7 +50,7 @@ const Login = () => {
   const classes = useStyles();
   const authContext = useAuth();
   const history = useHistory();
-  const { t } = useTranslation(['translation', 'login']);
+  const { t } = useTranslation([Namespaces.LOGIN]);
 
 
   const { showLoading, hideLoading } = useContext(LoadingContext);
@@ -112,7 +113,7 @@ const Login = () => {
       <form className={classes.container} noValidate autoComplete="off">
         <Logo />
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Login App" />
+          <CardHeader className={classes.header} title={t(`${Namespaces.LOGIN}:label.login`)} />
           <CardContent>
             <div>
               <TextField
@@ -122,8 +123,8 @@ const Login = () => {
                 fullWidth
                 id="username"
                 type="email"
-                label={t('login:username')}
-                placeholder={t('login:username')}
+                label={t(`${Namespaces.LOGIN}:label.username`)}
+                placeholder={t(`${Namespaces.LOGIN}:label.username`)}
                 margin="normal"
                 helperText={email.helperText}
                 onChange={(e) => setEmail({ value: e.target.value, error: false, helperText: '' })}
@@ -136,8 +137,8 @@ const Login = () => {
                 id="password"
                 value={password.value}
                 type={password.showPassword ? 'text' : 'password'}
-                label="Password"
-                placeholder="Password"
+                label={t(`${Namespaces.LOGIN}:label.password`)}
+                placeholder={t(`${Namespaces.LOGIN}:label.password`)}
                 margin="normal"
                 helperText={password.helperText}
                 onChange={(e) => setPassword({
@@ -162,7 +163,7 @@ const Login = () => {
               />
             </div>
           </CardContent>
-          <CardActions style={{ justifyContent: 'space-between' }}>
+          <CardActions style={{ justifyContent: 'space-between', margin: 8 }}>
             <Link
               component="button"
               variant="body2"
@@ -170,17 +171,18 @@ const Login = () => {
                 console.info("I'm a button.");
               }}
             >
-              Forgot password?
+              {t(`${Namespaces.LOGIN}:label.forgot_password`)}
             </Link>
             <Button
               variant="contained"
               size="medium"
               color="primary"
               className={classes.loginBtn}
+              style={{ maxWidth: 140, marginBottom: 12 }}
               onClick={() => handleLogin()}
               disabled={isButtonDisabled}
             >
-              Login
+              {t(`${Namespaces.LOGIN}:button.login`)}
             </Button>
           </CardActions>
         </Card>

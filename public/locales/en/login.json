@@ -1,5 +1,14 @@
 {
-    "login": "Login",
-    "username": "Username",
-    "password": "Password"
+    "label": {
+        "login": "Login",
+        "username": "Username",
+        "password": "Password",
+        "forgot_password": "Forgot password?"
+    },
+    "button": {
+        "login": "Login"
+    },
+    "error_messages": {
+        
+    }
 }
