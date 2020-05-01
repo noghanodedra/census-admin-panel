@@ -2,11 +2,12 @@
     "gu": "Gujarati",
     "en": "English",
     "label": {
-        "app_title": "Census Admin Panel",
+        "appTitle": "Census Admin Panel",
         "logout": "Logout"
     },
     "pages": {
         "login": "Login",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "about": "About"
     }
 }

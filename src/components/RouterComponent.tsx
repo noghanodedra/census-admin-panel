@@ -8,7 +8,7 @@ import { ResponsiveDrawer, Page } from 'components';
 const About: React.FC = () => (<div><h2>this is abount</h2></div>);
 
 const AppRouter = () => (
-  <div style={style}>
+  <>
     <Router>
       <Switch>
         <Page path="/" title="pages.login" exact component={Login} />
@@ -16,18 +16,19 @@ const AppRouter = () => (
         <Route>
           <ResponsiveDrawer>
             <Switch>
-              <Page path="/home" title="pages.dashboard" exact component={Dashboard} />
-              <Page path="/about" title="About" exact component={About} />
+              <Page
+                path="/home"
+                privateRoute={true}
+                title="pages.dashboard"
+                exact
+                component={Dashboard}
+              />
+              <Page path="/about" title="About" privateRoute={true} exact component={About} />
             </Switch>
           </ResponsiveDrawer>
         </Route>
       </Switch>
     </Router>
-  </div>
+  </>
 );
-
-const style = {
-  marginTop: '20px',
-};
-
 export default AppRouter;

@@ -3,12 +3,17 @@
         "login": "Login",
         "username": "Username",
         "password": "Password",
-        "forgot_password": "Forgot password?"
+        "forgotPassword": "Forgot password?"
     },
     "button": {
         "login": "Login"
     },
-    "error_messages": {
-        
+    "validation": {
+        "email": {
+            "required": "Username is required."
+        },
+        "password": {
+            "required": "Password is required."
+        }
     }
 }

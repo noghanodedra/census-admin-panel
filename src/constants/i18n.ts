@@ -1,5 +1,5 @@
-const Namespaces = {
+const NameSpaces = {
   COMMON: 'common',
   LOGIN: 'login',
 };
-export { Namespaces };
+export { NameSpaces };

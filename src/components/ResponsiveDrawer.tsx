@@ -1,34 +1,45 @@
-import React, { memo } from 'react';
+import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 
-import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import InfoRounded from '@material-ui/icons/InfoRounded';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Link } from 'react-router-dom';
+import {
+  Divider,
+  Drawer,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
+
+import {
+  InfoRounded,
+  ExitToApp as ExitToAppIcon,
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Dashboard as DashboardIcon,
+} from '@material-ui/icons';
+
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/react-hooks';
 
-import { Namespaces } from 'constants/i18n';
+import { NameSpaces as NS } from 'constants/i18n';
+import LocaleDropdown from 'components/LocaleDropdown';
+import { useLoading } from 'providers/LoadingProvider';
+import { LOGOUT_USER } from 'constants/graphql-queries-mutations';
+import CommonConstants from 'constants/common';
+import UserInfo from './UserInfo';
 
 // https://codesandbox.io/s/deopk?file=/demo.js:0-6582
-// https://dev.to/rossanodan/building-a-navigation-drawer-with-material-ui-and-react-router-dom-1j6l
 // https://stackblitz.com/edit/app-bar-and-drawer?file=index.js
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between', // 'flex-end',
   },
   content: {
     flexGrow: 1,
@@ -88,16 +99,25 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     justifyContent: 'space-around',
   },
+  iconButton: {
+    position: 'absolute',
+    top: 1,
+    right: 0,
+  },
 }));
 
 const ResponsiveDrawer = ({ ...props }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { t } = useTranslation([Namespaces.COMMON]);
-
+  const { t } = useTranslation([NS.COMMON]);
+  const { showLoading, hideLoading } = useLoading();
+  const [logout] = useMutation(LOGOUT_USER);
+  const history = useHistory();
 
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState('pages.dashboard');
+
+  const userDetails = JSON.parse(sessionStorage.getItem(CommonConstants.USER_DETAILS));
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,6 +125,19 @@ const ResponsiveDrawer = ({ ...props }) => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleLogout = () => {
+    showLoading();
+    logout({ variables: { accessToken: 'test' } })
+      .then(({ data }) => {
+        sessionStorage.removeItem(CommonConstants.USER_DETAILS);
+        hideLoading();
+        history.push('/');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -127,8 +160,9 @@ const ResponsiveDrawer = ({ ...props }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" noWrap>
-            {t(`${Namespaces.COMMON}:${title}`)}
+            {t(`${NS.COMMON}:${title}`)}
           </Typography>
+          <LocaleDropdown />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -141,15 +175,17 @@ const ResponsiveDrawer = ({ ...props }) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+          <UserInfo userDetails={userDetails} />
+          <IconButton onClick={handleDrawerClose} className={classes.iconButton}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
+
         <Divider />
         <List>
           {[
-            { label: 'pages.dashboard', path: 'home', icon: <HomeIcon /> },
-            { label: 'About', path: 'about', icon: <InfoRounded /> },
+            { label: 'pages.dashboard', path: 'home', icon: <DashboardIcon /> },
+            { label: 'pages.about', path: 'about', icon: <InfoRounded /> },
           ].map((item, index) => (
             <Link
               to={item.path}
@@ -160,18 +196,18 @@ const ResponsiveDrawer = ({ ...props }) => {
             >
               <ListItem button key={item.path} className={classes.listItem} selected={item.label === title}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={t(`${Namespaces.COMMON}:${item.label}`)} />
+                <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
               </ListItem>
             </Link>
           ))}
         </List>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem button onClick={handleLogout}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary={t(`${Namespaces.COMMON}:label.logout`)} />
+            <ListItemText primary={t(`${NS.COMMON}:label.logout`)} />
           </ListItem>
         </List>
       </Drawer>
@@ -187,4 +223,4 @@ const ResponsiveDrawer = ({ ...props }) => {
   );
 };
 
-export default memo(ResponsiveDrawer);
+export default ResponsiveDrawer;

@@ -14,10 +14,15 @@ export const lightTheme = responsiveFontSizes(
     overrides: {
       MuiListItem: {
         root: {
-          // color: '#679b9b',
+          color: '#679b9b',
           '&$selected': {
-            backgroundColor: '#679b9b',
+            // backgroundColor: '#6983aa',
           },
+        },
+      },
+      MuiListItemIcon: {
+        root: {
+          color: '#679b9b',
         },
       },
       MuiMenuItem: {

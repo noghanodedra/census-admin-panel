@@ -17,6 +17,6 @@ const Spinner = ({ ...props }) => {
 };
 
 const style = {
-  overlay: { display: 'flex', justifyContent: 'center', top: 20 },
+  overlay: { display: 'flex', top: 20 },
 };
 export default memo(Spinner);

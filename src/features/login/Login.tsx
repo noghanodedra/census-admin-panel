@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useContext,
+  useState, useContext,
 } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -21,8 +21,9 @@ import { useTranslation } from 'react-i18next';
 import { LOGIN_USER } from 'constants/graphql-queries-mutations';
 import { Logo, LocaleDropdown } from 'components';
 import { LoadingContext } from 'contexts';
-import { useAuth } from 'providers/AuthProvider';
-import { Namespaces } from 'constants/i18n';
+
+import { NameSpaces as NS } from 'constants/i18n';
+import CommonConstants from 'constants/common';
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -48,9 +49,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Login = () => {
   const classes = useStyles();
-  const authContext = useAuth();
   const history = useHistory();
-  const { t } = useTranslation([Namespaces.LOGIN]);
+  const { t } = useTranslation([NS.LOGIN]);
 
 
   const { showLoading, hideLoading } = useContext(LoadingContext);
@@ -61,25 +61,19 @@ const Login = () => {
   const [password, setPassword] = useState({
     value: 'test', error: false, helperText: '', showPassword: false,
   });
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleClickShowPassword = () => {
     setPassword({ ...password, showPassword: !password.showPassword });
   };
 
-  useEffect(() => {
-    if (email.value.trim() && password.value.trim()) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
-  }, [email, password]);
-
   const handleLogin = () => {
-    if (email.value === 'abc@email.com' && password.value === 'password') {
-      // setError(false);
-    } else {
-      // setError(true);
+    if (!email.value) {
+      setEmail({ ...email, error: true, helperText: 'validation.email.required' });
+      return;
+    }
+    if (!password.value) {
+      setPassword({ ...password, error: true, helperText: 'validation.password.required' });
+      return;
     }
 
     showLoading();
@@ -91,9 +85,8 @@ const Login = () => {
       fetchPolicy: 'no-cache',
     })
       .then(({ data }) => {
-        // console.log(data);
         hideLoading();
-        authContext.onLogin(data.login.profile);
+        sessionStorage.setItem(CommonConstants.USER_DETAILS, JSON.stringify(data.login.profile));
         history.push('/home');
       })
       .catch((e) => {
@@ -103,7 +96,7 @@ const Login = () => {
 
   const handleKeyPress = (e: any) => {
     if (e.keyCode === 13 || e.which === 13) {
-      isButtonDisabled || handleLogin();
+      handleLogin();
     }
   };
 
@@ -113,7 +106,7 @@ const Login = () => {
       <form className={classes.container} noValidate autoComplete="off">
         <Logo />
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title={t(`${Namespaces.LOGIN}:label.login`)} />
+          <CardHeader className={classes.header} title={t(`${NS.LOGIN}:label.login`)} />
           <CardContent>
             <div>
               <TextField
@@ -123,10 +116,10 @@ const Login = () => {
                 fullWidth
                 id="username"
                 type="email"
-                label={t(`${Namespaces.LOGIN}:label.username`)}
-                placeholder={t(`${Namespaces.LOGIN}:label.username`)}
+                label={t(`${NS.LOGIN}:label.username`)}
+                placeholder={t(`${NS.LOGIN}:label.username`)}
                 margin="normal"
-                helperText={email.helperText}
+                helperText={t(`${NS.LOGIN}:${email.helperText}`)}
                 onChange={(e) => setEmail({ value: e.target.value, error: false, helperText: '' })}
                 onKeyPress={(e) => handleKeyPress(e)}
               />
@@ -137,10 +130,10 @@ const Login = () => {
                 id="password"
                 value={password.value}
                 type={password.showPassword ? 'text' : 'password'}
-                label={t(`${Namespaces.LOGIN}:label.password`)}
-                placeholder={t(`${Namespaces.LOGIN}:label.password`)}
+                label={t(`${NS.LOGIN}:label.password`)}
+                placeholder={t(`${NS.LOGIN}:label.password`)}
                 margin="normal"
-                helperText={password.helperText}
+                helperText={t(`${NS.LOGIN}:${password.helperText}`)}
                 onChange={(e) => setPassword({
                   value: e.target.value,
                   error: false,
@@ -171,7 +164,7 @@ const Login = () => {
                 console.info("I'm a button.");
               }}
             >
-              {t(`${Namespaces.LOGIN}:label.forgot_password`)}
+              {t(`${NS.LOGIN}:label.forgotPassword`)}
             </Link>
             <Button
               variant="contained"
@@ -180,9 +173,8 @@ const Login = () => {
               className={classes.loginBtn}
               style={{ maxWidth: 140, marginBottom: 12 }}
               onClick={() => handleLogin()}
-              disabled={isButtonDisabled}
             >
-              {t(`${Namespaces.LOGIN}:button.login`)}
+              {t(`${NS.LOGIN}:button.login`)}
             </Button>
           </CardActions>
         </Card>

@@ -3,7 +3,7 @@ import { MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 
-import { Namespaces } from 'constants/i18n';
+import { NameSpaces as NS } from 'constants/i18n';
 
 const useStyles = makeStyles((theme) => ({
   selectEmpty: {
@@ -11,13 +11,13 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     position: 'absolute',
-    top: 10,
+    top: 15,
     right: 10,
   },
 }));
 
 const LocaleDropdown = () => {
-  const { t, i18n } = useTranslation([Namespaces.COMMON]);
+  const { t, i18n } = useTranslation([NS.COMMON]);
   const [currentLocale, setCurrentLocale] = useState('en');
   const classes = useStyles();
 
@@ -36,8 +36,8 @@ const LocaleDropdown = () => {
       onChange={handleChange}
       className={classes.select}
     >
-      <MenuItem value="en">{t(`${Namespaces.COMMON}:en`)}</MenuItem>
-      <MenuItem value="gu">{t(`${Namespaces.COMMON}:gu`)}</MenuItem>
+      <MenuItem value="en">{t(`${NS.COMMON}:en`)}</MenuItem>
+      <MenuItem value="gu">{t(`${NS.COMMON}:gu`)}</MenuItem>
     </Select>
   );
 };

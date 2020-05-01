@@ -3,10 +3,17 @@
         "login": "સાઇન ઇન",
         "username": "વપરાશકર્તા નામ",
         "password": "પાસવર્ડ",
-        "forgot_password": "પાસવર્ડ ભૂલી ગયાં છો?"
+        "forgotPassword": "પાસવર્ડ ભૂલી ગયાં છો?"
     },
     "button": {
         "login": "સાઇન ઇન કરો"
     },
-    "error_messages": {}
+    "validation": {
+        "email": {
+            "required": "વપરાશકર્તા નામ આવશ્યક છે."
+        },
+        "password": {
+            "required": "પાસવર્ડ અનિવાર્ય છે."
+        }
+    }
 }
