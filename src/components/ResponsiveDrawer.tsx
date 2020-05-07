@@ -15,6 +15,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Collapse,
 } from '@material-ui/core';
 
 import {
@@ -24,7 +25,12 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   Dashboard as DashboardIcon,
+  ExpandLess as Less,
+  ExpandMore as More,
+  List as ListIcon,
+  Group as GroupIcon,
 } from '@material-ui/icons';
+
 
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/react-hooks';
@@ -42,9 +48,7 @@ import UserInfo from './UserInfo';
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
+
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -87,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -116,8 +119,23 @@ const ResponsiveDrawer = ({ ...props }) => {
 
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState('pages.dashboard');
+  const [subMenuOpen, setSubMenuOpen] = React.useState(false);
 
   const userDetails = JSON.parse(sessionStorage.getItem(CommonConstants.USER_DETAILS));
+
+  const menuItems = [
+    { label: 'pages.dashboard', path: '/app/home', icon: <DashboardIcon /> },
+    {
+      label: 'pages.entities',
+      path: '/app/entities',
+      icon: <ListIcon />,
+      subItems: [{ label: 'pages.subPages.census', path: '/app/entities/census', icon: <GroupIcon /> }],
+    },
+  ];
+
+  const handleSubMenuClick = () => {
+    setSubMenuOpen(!subMenuOpen);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -140,8 +158,44 @@ const ResponsiveDrawer = ({ ...props }) => {
       });
   };
 
+  const menuItemWithSubMenu = (item: any, index: number) => (
+    <>
+      <ListItem button onClick={handleSubMenuClick}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
+        {subMenuOpen ? <Less /> : <More />}
+      </ListItem>
+      <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+        <Divider />
+        <List component="div" disablePadding style={{ paddingLeft: 55 }} key={index}>
+          {item.subItems.map((subItem: any, subIndex: number) => {
+            if (subItem.subMenu) {
+              return menuItemWithSubMenu(subItem, subIndex);
+            }
+            return menuItem(subItem, subIndex);
+          })}
+        </List>
+      </Collapse>
+    </>
+  );
+
+
+  const menuItem = (item:any, index: number) => (
+    <Link
+      key={index}
+      to={item.path}
+      style={{ textDecoration: 'none' }}
+      onClick={() => { setTitle(item.label); setOpen(false); }}
+    >
+      <ListItem button key={item.path} className={classes.listItem}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
+      </ListItem>
+    </Link>
+  );
+
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -182,24 +236,13 @@ const ResponsiveDrawer = ({ ...props }) => {
         </div>
 
         <Divider />
-        <List>
-          {[
-            { label: 'pages.dashboard', path: 'home', icon: <DashboardIcon /> },
-            { label: 'pages.about', path: 'about', icon: <InfoRounded /> },
-          ].map((item, index) => (
-            <Link
-              to={item.path}
-              style={{ textDecoration: 'none' }}
-                          // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              onClick={() => setTitle(item.label)}
-            >
-              <ListItem button key={item.path} className={classes.listItem} selected={item.label === title}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
-              </ListItem>
-            </Link>
-          ))}
+        <List aria-labelledby="nested-list">
+          {menuItems.map((item, index) => {
+            if (Array.isArray(item.subItems)) {
+              return menuItemWithSubMenu(item, index);
+            }
+            return menuItem(item, index);
+          })}
         </List>
         <Divider />
         <List>

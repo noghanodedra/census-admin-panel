@@ -6,12 +6,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
     return {
+        context: __dirname,
         entry: './index.tsx',
         devServer: {
-            contentBase: path.join(__dirname, 'dist'),
+            //contentBase: path.join(__dirname, 'dist'),
             compress: true,
             port: 19006,
             historyApiFallback: true,
+            contentBase: './',
+            hot: true,
+            writeToDisk: false,
         },
         output: {
             filename: 'bundle.[hash].js',

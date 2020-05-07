@@ -1,34 +1,64 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  HashRouter as Router, Route, Switch, Redirect,
+} from 'react-router-dom';
 
+import CommonConstants from 'constants/common';
 import { Dashboard } from 'features/dashboard';
 import { Login } from 'features/login';
-import { ResponsiveDrawer, Page } from 'components';
+import { List as Census } from 'features/crud/census';
 
-const About: React.FC = () => (<div><h2>this is abount</h2></div>);
+import { ResponsiveDrawer, Page } from 'components';
+// https://codesandbox.io/s/hungry-dubinsky-q1l62?fontsize=14&file=/src/index.js
+// https://stackoverflow.com/questions/56711663/react-router-v5-0-nested-routes
+
 
 const AppRouter = () => (
   <>
     <Router>
-      <Switch>
-        <Page path="/" title="pages.login" exact component={Login} />
-
-        <Route>
-          <ResponsiveDrawer>
-            <Switch>
-              <Page
-                path="/home"
-                privateRoute={true}
-                title="pages.dashboard"
-                exact
-                component={Dashboard}
-              />
-              <Page path="/about" title="About" privateRoute={true} exact component={About} />
-            </Switch>
-          </ResponsiveDrawer>
-        </Route>
-      </Switch>
+      <Layouts />
     </Router>
   </>
 );
+
+function Layouts() {
+  return (
+    <Switch>
+      <Route path="/auth" component={AuthRoutes} />
+      <Route path="/app" component={PrivateRoutes} />
+      <Redirect from="/" to="/auth/login" exact />
+      <Route />
+    </Switch>
+  );
+}
+
+const PrivateRoutes: React.FC = () => (
+  <>
+    <ResponsiveDrawer>
+      <Switch>
+        <Page path="/app/home" privateRoute={true} title="pages.dashboard" exact component={Dashboard} />
+        <Page
+          path="/app/entities/census"
+          title="pages.subPages.census"
+          privateRoute={true}
+          exact
+          component={Census}
+        />
+        <Redirect from="/app" to="/app/home" exact />
+        <Route />
+      </Switch>
+    </ResponsiveDrawer>
+  </>
+);
+
+const AuthRoutes: React.FC = () => (
+  <>
+    <Switch>
+      <Page path="/auth/login" title="pages.login" exact component={Login} />
+      <Redirect from="/" to="/auth/login" exact />
+      <Route />
+    </Switch>
+  </>
+);
+
 export default AppRouter;

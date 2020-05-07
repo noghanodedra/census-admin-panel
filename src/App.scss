@@ -1,18 +1,10 @@
-$default-background: #d3d3d3;
 
 body {
     height: 100%;
 }
 
 .App {
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
 }
-
 .MuiCircularProgress-root {
     left: 50%;
     position: absolute;

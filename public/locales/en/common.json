@@ -8,6 +8,10 @@
     "pages": {
         "login": "Login",
         "dashboard": "Dashboard",
-        "about": "About"
+        "about": "About",
+        "entities": "Entities",
+        "subPages": {
+            "census": "Census"
+        }
     }
 }

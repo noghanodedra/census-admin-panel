@@ -87,7 +87,7 @@ const Login = () => {
       .then(({ data }) => {
         hideLoading();
         sessionStorage.setItem(CommonConstants.USER_DETAILS, JSON.stringify(data.login.profile));
-        history.push('/home');
+        history.replace('/app/home');
       })
       .catch((e) => {
         hideLoading();
