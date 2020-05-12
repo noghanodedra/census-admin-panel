@@ -98,4 +98,4 @@ const FormPanel = ({
 };
 
 
-export default FormPanel;
+export default memo(FormPanel);

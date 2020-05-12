@@ -8,7 +8,28 @@
         "description": "વર્ણન",
         "rowsPerPage": "પૃષ્ઠ દીઠ પંક્તિઓ",
         "addRecord": "રેકોર્ડ ઉમેરો",
-        "actions": "વિકલ્પો"
+        "actions": "વિકલ્પો",
+        "add": "ઉમેરો",
+        "edit": "સંપાદિત કરો",
+        "none": "કંઈ નહીં"
+    },
+    "placeholder": {
+        "name": "કૃપા કરી નામ દાખલ કરો",
+        "description": "કૃપા કરી વર્ણન દાખલ કરો"
+    },
+    "messages": {
+        "required": {
+            "name": "નામ આવશ્યક છે.",
+            "description": "વર્ણન આવશ્યક છે."
+        },
+        "length": {
+            "name": "નામ ખૂબ ટૂંકું છે."
+        }
+    },
+    "button": {
+        "add": "ઉમેરો",
+        "save": "સાચવો",
+        "cancel": "રદ કરો"
     },
     "pages": {
         "login": "પ્રવેશ કરો",

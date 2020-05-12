@@ -21,10 +21,10 @@ const useForm = (initModel:Array<any>, submitCallback: Function) => {
             const nVal = Number(val);
             if (nVal >= Number(min) && nVal <= Number(max)) i.value = val;
           } else if (val === '') {
-            i.value = val;
+            i.value = '';
           }
         } else {
-        // eslint-disable-next-line no-param-reassign
+          // eslint-disable-next-line no-param-reassign
           i.value = i.type === 'checkbox' ? e.target.checked : e.target.value;
         }
         parseInput(i);
@@ -39,6 +39,7 @@ const useForm = (initModel:Array<any>, submitCallback: Function) => {
     inputs.forEach((i) => validateInput(i));
     inputs.some((i) => i.error) ? setInputs([...inputs]) : submitCallback();
   };
+
 
   const parseInput = (input:any) => (input.value = input.parseFun ? input.parseFun(input.value) : input.value);
 

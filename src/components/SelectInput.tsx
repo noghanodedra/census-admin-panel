@@ -27,7 +27,7 @@ const SelectInput = ({ ...props }) => {
 
   return (
     <FormControl variant="outlined" className={classes.formControl} fullWidth error={error}>
-      <InputLabel id={`${id}-select-outlined-label`}>{label}</InputLabel>
+      <InputLabel id={`${id}-select-outlined-label`}>{t(`${label}`)}</InputLabel>
       <Select
         labelId={`${id}-select-outlined-label`}
         id={`${id}-select-outlined`}
@@ -46,7 +46,7 @@ const SelectInput = ({ ...props }) => {
           </MenuItem>
         ))}
       </Select>
-      {error && <FormHelperText>{helperText}</FormHelperText>}
+      {error && <FormHelperText>{t(`${helperText}`)}</FormHelperText>}
     </FormControl>
   );
 };

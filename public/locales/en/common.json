@@ -17,6 +17,15 @@
         "name": "Please enter name",
         "description": "Please enter description"
     },
+    "messages": {
+        "required": {
+            "name": "Name is required.",
+            "description": "Description is required."
+        },
+        "length": {
+            "name": "Name is too short."
+        }
+    },
     "button": {
         "add": "Add",
         "save": "Save",

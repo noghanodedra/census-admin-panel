@@ -3,87 +3,16 @@ import React, {
 } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import { useTranslation } from 'react-i18next';
 
-import { NameSpaces as NS } from 'constants/i18n';
-import { CustomTable } from 'components';
+import { CustomTable, Page } from 'components';
 import FormPanel from 'components/FormPanel';
-
 import { LoadingContext } from 'contexts';
-import { checkAtLeastLength, checkIsfilled } from 'utils/inputValidators';
+import { Login } from 'features/login';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { columnModel, entityModel as censusModel } from './models';
 
-const columns = [
-  {
-    id: 'name',
-    label: 'Name',
-    minWidth: 170,
-    align: 'left',
-    i18nKey: `${NS.COMMON}:label.name`,
-    type: 'text',
-  },
-  {
-    id: 'description',
-    label: 'Description',
-    minWidth: 180,
-    align: 'left',
-    i18nKey: `${NS.COMMON}:label.description`,
-    type: 'text',
-  },
-];
 
 /*
-const censusModel = [
-  {
-    id: 'name',
-    label: 'Name',
-    placeholder: 'Name',
-    type: 'text',
-    validators: [
-      {
-        id: 'required',
-        isValidFun: (expression: any) => checkIsfilled(expression),
-        alert: 'Name is required',
-      },
-      {
-        id: 'name-length',
-        isValidFun: (expression: any) => checkAtLeastLength(expression, 3),
-        alert: 'Name is too short',
-      },
-    ],
-  },
-  {
-    id: 'age',
-    label: 'Age',
-    placeholder: 'Age',
-    type: 'select',
-    validators: [
-      {
-        id: 'required',
-        isValidFun: (expression: any) => checkIsfilled(expression),
-        alert: 'Please select age.',
-      },
-    ],
-  },
-  {
-    id: 'myage',
-    label: 'myAge',
-    placeholder: 'myAge',
-    type: 'number',
-    InputProps: {
-      inputProps: {
-        max: 10, min: 1,
-      },
-    },
-    validators: [
-      {
-        id: 'required',
-        isValidFun: (expression: any) => checkIsfilled(expression),
-        alert: 'Please enter age.',
-      },
-    ],
-  },
-];
-*/
 
 const censusModel = [
   {
@@ -125,7 +54,6 @@ const censusModel = [
     label: 'myAge',
     placeholder: 'myAge',
     type: 'number',
-    defaultValue: 0,
     InputProps: {
       inputProps: {
         max: 10,
@@ -139,8 +67,10 @@ const censusModel = [
         alert: 'Please enter age.',
       },
     ],
+    onInput: (e:any) => onlyNumbers(e),
   },
 ];
+*/
 
 const GET_DATA = gql`
   {
@@ -153,7 +83,6 @@ const GET_DATA = gql`
 
 const List: FunctionComponent = () => {
   const { showLoading, hideLoading } = useContext(LoadingContext);
-  const { t } = useTranslation([NS.LOGIN]);
 
   const { loading, data } = useQuery(GET_DATA);
   useEffect(() => {
@@ -168,14 +97,37 @@ const List: FunctionComponent = () => {
     return null;
   }
   console.log(data);
-  return (
-  // <CustomTable rows={data.censusList} columns={columns} />
+
+  const table = () => (<CustomTable rows={data.censusList} columns={columnModel} />);
+
+  const addRecordForm = () => (<FormPanel
+    title="pages.subPages.census"
+    submitCallback={() => {
+      console.log('submit', censusModel);
+    }}
+    model={censusModel}
+    isEdit={false}
+  />);
+
+  const editRecordForm = () => (
     <FormPanel
       title="pages.subPages.census"
-      submitCallback={() => { console.log('submit', censusModel); }}
+      submitCallback={() => {
+        console.log('submit', censusModel);
+      }}
       model={censusModel}
       isEdit={false}
     />
+  );
+
+  return (
+    <>
+      <Switch>
+        <Page path="/app/entities/census/list" title="pages.login" component={table} />
+        <Redirect from="/app/entities/census" to="/app/entities/census/list" />
+        <Route />
+      </Switch>
+    </>
   );
 };
 export default memo(List);
