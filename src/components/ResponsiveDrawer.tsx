@@ -19,7 +19,6 @@ import {
 } from '@material-ui/core';
 
 import {
-  InfoRounded,
   ExitToApp as ExitToAppIcon,
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
@@ -159,7 +158,7 @@ const ResponsiveDrawer = ({ ...props }) => {
   };
 
   const menuItemWithSubMenu = (item: any, index: number) => (
-    <>
+    <React.Fragment key={index}>
       <ListItem button onClick={handleSubMenuClick}>
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
@@ -167,27 +166,30 @@ const ResponsiveDrawer = ({ ...props }) => {
       </ListItem>
       <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
         <Divider />
-        <List component="div" disablePadding style={{ paddingLeft: 55 }} key={index}>
+        <List component="div" disablePadding style={{ paddingLeft: 55 }}>
           {item.subItems.map((subItem: any, subIndex: number) => {
-            if (subItem.subMenu) {
+            if (Array.isArray(subItem.subItems)) {
               return menuItemWithSubMenu(subItem, subIndex);
             }
             return menuItem(subItem, subIndex);
           })}
         </List>
       </Collapse>
-    </>
+    </React.Fragment>
   );
 
 
-  const menuItem = (item:any, index: number) => (
+  const menuItem = (item: any, index: number) => (
     <Link
-      key={index}
       to={item.path}
+      key={index}
       style={{ textDecoration: 'none' }}
-      onClick={() => { setTitle(item.label); setOpen(false); }}
+      onClick={() => {
+        setTitle(item.label);
+        setOpen(false);
+      }}
     >
-      <ListItem button key={item.path} className={classes.listItem}>
+      <ListItem button className={classes.listItem}>
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={t(`${NS.COMMON}:${item.label}`)} />
       </ListItem>
@@ -246,7 +248,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={handleLogout}>
+          <ListItem button onClick={handleLogout} key="logout_item">
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>

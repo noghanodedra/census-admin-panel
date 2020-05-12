@@ -3,12 +3,28 @@
     "en": "English",
     "label": {
         "appTitle": "Census Admin Panel",
-        "logout": "Logout"
+        "logout": "Logout",
+        "name": "Name",
+        "description": "Description",
+        "rowsPerPage": "Rows per page",
+        "addRecord": "Add record",
+        "actions": "Actions",
+        "add": "Add",
+        "edit": "Edit",
+        "none": "None"
+    },
+    "placeholder": {
+        "name": "Please enter name",
+        "description": "Please enter description"
+    },
+    "button": {
+        "add": "Add",
+        "save": "Save",
+        "cancel": "Cancel"
     },
     "pages": {
         "login": "Login",
         "dashboard": "Dashboard",
-        "about": "About",
         "entities": "Entities",
         "subPages": {
             "census": "Census"

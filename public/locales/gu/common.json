@@ -3,11 +3,19 @@
     "en": "અંગ્રેજી",
     "label": {
         "appTitle": "વસ્તી ગણતરી સંચાલન પેનલ",
-        "logout": "લૉગ આઉટ"
+        "logout": "લૉગ આઉટ",
+        "name": "નામ",
+        "description": "વર્ણન",
+        "rowsPerPage": "પૃષ્ઠ દીઠ પંક્તિઓ",
+        "addRecord": "રેકોર્ડ ઉમેરો",
+        "actions": "વિકલ્પો"
     },
     "pages": {
         "login": "પ્રવેશ કરો",
         "dashboard": "ડેશબોર્ડ",
-        "about": "About"
+        "entities": "એન્ટિટીયો",
+        "subPages": {
+            "census": "વસ્તી ગણતરી"
+        }
     }
 }

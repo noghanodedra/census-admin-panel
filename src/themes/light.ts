@@ -32,6 +32,11 @@ export const lightTheme = responsiveFontSizes(
           },
         },
       },
+      MuiIconButton: {
+        root: {
+          color: '#679b9b',
+        },
+      },
     },
   }),
 );
