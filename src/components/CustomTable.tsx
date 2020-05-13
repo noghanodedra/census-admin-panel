@@ -20,14 +20,12 @@ import {
   Button,
 } from '@material-ui/core';
 import { AddBox as AddBoxIcon } from '@material-ui/icons';
-import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 import theme from 'core/theme';
-
 import { NameSpaces as NS } from 'constants/i18n';
-
+import { useHistory, Link, Route } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -55,6 +53,7 @@ interface ColumnProps {
 interface TableProps {
   rows: Array<any>;
   columns: Array<ColumnProps>;
+  delCallback: Function;
 }
 
 const useToolbarStyles = makeStyles(() => ({
@@ -67,27 +66,38 @@ const useToolbarStyles = makeStyles(() => ({
   },
 }));
 
-
 const TableToolbar = (props:any) => {
   const classes = useToolbarStyles();
   const { t } = useTranslation([NS.LOGIN]);
+  const history = useHistory();
+  console.log(history);
 
   return (
-    <Toolbar>
-      <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-        Table
-      </Typography>
-      <Tooltip title={t(`${NS.COMMON}:label.addRecord`)}>
-        <IconButton aria-label="filter list">
-          <AddBoxIcon />
-        </IconButton>
-      </Tooltip>
-    </Toolbar>
+    <>
+      <Toolbar>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          Table
+        </Typography>
+        <Tooltip title={t(`${NS.COMMON}:label.addRecord`)}>
+          <IconButton
+            aria-label="filter list"
+            onClick={() => {
+              history.push(`${history.location.pathname}/add`);
+            }}
+          >
+            <AddBoxIcon />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+    </>
   );
 };
 
-const CustomTable: FunctionComponent<TableProps> = ({ columns, rows }) => {
+
+const CustomTable: FunctionComponent<TableProps> = ({ columns, rows, delCallback }) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const { t } = useTranslation([NS.LOGIN]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -146,10 +156,16 @@ const CustomTable: FunctionComponent<TableProps> = ({ columns, rows }) => {
                       );
                     })}
                     <TableCell align="right">
-                      <Button color="primary" size="small">
+                      <Button
+                        color="primary"
+                        size="small"
+                        onClick={() => {
+                          history.push(`${history.location.pathname}/edit`);
+                        }}
+                      >
                         <EditIcon />
                       </Button>
-                      <Button color="primary" size="small">
+                      <Button color="primary" size="small" onClick={() => delCallback()}>
                         <DeleteIcon />
                       </Button>
                     </TableCell>

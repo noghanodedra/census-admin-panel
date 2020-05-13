@@ -17,7 +17,8 @@
         "skipLibCheck": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "types": ["node", "jest"]
+        "types": ["node", "jest"],
+        "suppressImplicitAnyIndexErrors": true
     },
     "exclude": ["node_modules", "**/*.spec.ts", "*.config.js"]
 }

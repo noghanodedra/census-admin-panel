@@ -8,6 +8,7 @@ import useForm from 'hooks/useForm';
 import { NameSpaces as NS } from 'constants/i18n';
 import { useTranslation } from 'react-i18next';
 import { TextInput, SelectInput } from 'components';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   container: {
@@ -36,6 +37,7 @@ const FormPanel = ({
 }: IFormPanelProps) => {
   const classes = useStyles();
   const { t } = useTranslation([NS.COMMON]);
+  const history = useHistory();
 
   const { inputs, handleChange, handleSubmit } = useForm(model, submitCallback);
   const myClonedArray = Object.assign([], inputs);
@@ -62,7 +64,7 @@ const FormPanel = ({
     );
   };
 
-  const getTitle = () => `${t(`${NS.COMMON}:${isEdit ? 'label.edit' : 'label.add'}`)} ${t(`${NS.COMMON}:${title}`)}`;
+  const getTitle = () => `${t(`${NS.COMMON}:${isEdit ? 'label.edit' : 'label.add'}`)} - ${t(`${NS.COMMON}:${title}`)}`;
 
   return (
     <>
@@ -78,6 +80,7 @@ const FormPanel = ({
               size="medium"
               color="secondary"
               style={{ maxWidth: 140, marginBottom: 12 }}
+              onClick={() => history.goBack()}
             >
               {t(`${NS.COMMON}:button.cancel`)}
             </Button>
