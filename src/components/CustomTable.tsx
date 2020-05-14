@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -22,10 +22,11 @@ import {
 import { AddBox as AddBoxIcon } from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { useHistory } from 'react-router-dom';
 
 import theme from 'core/theme';
 import { NameSpaces as NS } from 'constants/i18n';
-import { useHistory, Link, Route } from 'react-router-dom';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 const useStyles = makeStyles({
   root: {
@@ -54,6 +55,7 @@ interface TableProps {
   rows: Array<any>;
   columns: Array<ColumnProps>;
   delCallback: Function;
+  setEditRecord?: Function
 }
 
 const useToolbarStyles = makeStyles(() => ({
@@ -66,11 +68,10 @@ const useToolbarStyles = makeStyles(() => ({
   },
 }));
 
-const TableToolbar = (props:any) => {
+const TableToolbar = () => {
   const classes = useToolbarStyles();
   const { t } = useTranslation([NS.LOGIN]);
   const history = useHistory();
-  console.log(history);
 
   return (
     <>
@@ -94,9 +95,13 @@ const TableToolbar = (props:any) => {
 };
 
 
-const CustomTable: FunctionComponent<TableProps> = ({ columns, rows, delCallback }) => {
+const CustomTable: FunctionComponent<TableProps> = ({
+  columns, rows, delCallback, setEditRecord,
+}) => {
   const classes = useStyles();
   const history = useHistory();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [recordId, setRecordId] = useState();
 
   const { t } = useTranslation([NS.LOGIN]);
   const [page, setPage] = React.useState(0);
@@ -160,12 +165,20 @@ const CustomTable: FunctionComponent<TableProps> = ({ columns, rows, delCallback
                         color="primary"
                         size="small"
                         onClick={() => {
+                          setEditRecord(row);
                           history.push(`${history.location.pathname}/edit`);
                         }}
                       >
                         <EditIcon />
                       </Button>
-                      <Button color="primary" size="small" onClick={() => delCallback()}>
+                      <Button
+                        color="primary"
+                        size="small"
+                        onClick={() => {
+                          setConfirmOpen(true);
+                          setRecordId(row.id);
+                        }}
+                      >
                         <DeleteIcon />
                       </Button>
                     </TableCell>
@@ -185,9 +198,17 @@ const CustomTable: FunctionComponent<TableProps> = ({ columns, rows, delCallback
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <ConfirmDialog
+          title={t(`${NS.COMMON}:label.deleteRecord`)}
+          open={confirmOpen}
+          setOpen={setConfirmOpen}
+          onConfirm={() => delCallback(recordId)}
+        >
+          {t(`${NS.COMMON}:messages.deleteConfirm`)}
+        </ConfirmDialog>
       </Paper>
     </>
   );
 };
 
-export default memo(CustomTable);
+export default CustomTable;

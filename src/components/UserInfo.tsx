@@ -37,12 +37,14 @@ const UserInfo: FunctionComponent<IProps> = (props: IProps) => {
   const classes = useStyles();
   const { userDetails } = props;
 
+  const getInitials = () => (userDetails.firstName.charAt(0) + userDetails.lastName.charAt(0)).toUpperCase();
+
   return (
     <>
       <div className={classes.card}>
         <CardContent>
           <Grid container justify="center">
-            <Avatar className={clsx(classes.large, classes.avatar)}>NO</Avatar>
+            <Avatar className={clsx(classes.large, classes.avatar)}>{getInitials()}</Avatar>
           </Grid>
           <Typography variant="subtitle1" component="p">
             {userDetails.firstName} {userDetails.lastName}

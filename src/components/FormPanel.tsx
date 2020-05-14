@@ -1,14 +1,15 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import {
   makeStyles, Theme, createStyles, Card, CardHeader, CardContent, CardActions, Button,
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import useForm from 'hooks/useForm';
 import { NameSpaces as NS } from 'constants/i18n';
-import { useTranslation } from 'react-i18next';
 import { TextInput, SelectInput } from 'components';
-import { useHistory } from 'react-router-dom';
+import { deepCopy } from 'utils/helpers';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   container: {
@@ -30,19 +31,26 @@ interface IFormPanelProps {
   model: Array<any>;
   isEdit: boolean;
   submitCallback: Function;
+  data?: object;
 }
 
 const FormPanel = ({
-  title, submitCallback, model, isEdit,
+  title, submitCallback, model, isEdit, data,
 }: IFormPanelProps) => {
   const classes = useStyles();
   const { t } = useTranslation([NS.COMMON]);
   const history = useHistory();
 
-  const { inputs, handleChange, handleSubmit } = useForm(model, submitCallback);
-  const myClonedArray = Object.assign([], inputs);
-
-  console.log(handleSubmit);
+  const modelClone = deepCopy(model);
+  if (isEdit && data) {
+    // input.value = data[input.id];
+    modelClone.map((input: any) => {
+      // eslint-disable-next-line no-param-reassign
+      input.value = data[input.id];
+    });
+  }
+  const { inputs, handleChange, handleSubmit } = useForm(modelClone, submitCallback);
+  const myClonedArray = deepCopy(inputs);
 
   const getComponent = (inputType: string) => {
     switch (inputType) {
@@ -101,4 +109,4 @@ const FormPanel = ({
 };
 
 
-export default memo(FormPanel);
+export default FormPanel;

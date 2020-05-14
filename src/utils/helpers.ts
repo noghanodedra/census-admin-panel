@@ -6,3 +6,26 @@ export const modelToObject = (model:any) => {
   });
   return record;
 };
+
+export const deepCopy = (inObject:any) => {
+  let outObject;
+  let value;
+  let key;
+
+  if (typeof inObject !== 'object' || inObject === null) {
+    return inObject; // Return the value if inObject is not an object
+  }
+
+  // Create an array or object to hold the values
+  // eslint-disable-next-line prefer-const
+  outObject = Array.isArray(inObject) ? [] : {};
+
+  // eslint-disable-next-line guard-for-in
+  for (key in inObject) {
+    value = inObject[key];
+    // Recursively (deep) copy for nested objects, including arrays
+    outObject[key] = deepCopy(value);
+  }
+
+  return outObject;
+};

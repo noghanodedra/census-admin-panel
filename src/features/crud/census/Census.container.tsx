@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, memo, useContext, useEffect,
+  FunctionComponent, useContext, useEffect, useState,
 } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -90,20 +90,30 @@ const ADD_RECORD = gql`
 `;
 
 const UPDATE_RECORD = gql`
-    mutation updateCensus($id: string, $census: UpdateCensusInput!) {
+    mutation updateCensus($id: String!, $census: UpdateCensusInput!) {
         updateCensus(id: $id, data: $census) {
             id
         }
     }
 `;
 
+const DELETE_RECORD = gql`
+    mutation deleteCensus($id: String!) {
+        deleteCensus(id: $id)
+    }
+`;
+
 const List: FunctionComponent = () => {
   const { showLoading, hideLoading } = useContext(LoadingContext);
   const history = useHistory();
+  const [refetch, setRefetch] = useState(null);
+  const [editRecord, setEditRecord] = useState(null);
 
-  const { loading, data } = useQuery(GET_DATA);
+  const { loading, data } = useQuery(GET_DATA, { variables: { antiCache: refetch }, fetchPolicy: 'network-only' });
+
   const [createCensus] = useMutation(ADD_RECORD);
   const [updateCensus] = useMutation(UPDATE_RECORD);
+  const [deleteCensus] = useMutation(DELETE_RECORD);
 
   useEffect(() => {
     if (loading) {
@@ -111,37 +121,53 @@ const List: FunctionComponent = () => {
     } else {
       hideLoading();
     }
+    console.log(data);
   }, [loading]);
 
   if (loading) {
     return null;
   }
-  console.log(data);
 
-  const addRecord = () => {
-    const census = modelToObject(censusModel);
-    console.log('recor', census);
+  const doOperation = (model:Object, mutationFn: Function, id?:string, del:boolean = false) => {
+    let requestFn = null;
+    console.log('id', id, 'ed', editRecord);
+    console.log('model', model);
+
+    if (!del) {
+      const census = modelToObject(model);
+      console.log('recor', census);
+      requestFn = id ? mutationFn({ variables: { id, census } }) : mutationFn({ variables: { census } });
+    } else {
+      requestFn = mutationFn({ variables: { id } });
+    }
     showLoading();
-    createCensus({ variables: { census } })
-      .then(({ data: any }) => {
+    requestFn
+      .then(() => {
         hideLoading();
-        history.push('/app/entities/census');
+        setEditRecord(null);
+        setRefetch(new Date().getTime());
+        history.replace('/app/entities/census');
       })
-      .catch((e) => {
+      .catch((e: any) => {
         console.log(e);
         hideLoading();
       });
   };
 
-  const updateRecord = () => {};
-
-  const deleteRecord = (id: number) => {};
-
-  const table = () => (<CustomTable rows={data.censusList} columns={columnModel} delCallback={deleteRecord} />);
+  const table = () => (
+    <CustomTable
+      rows={data.censusList}
+      columns={...columnModel}
+      delCallback={(id: string) => {
+        doOperation(null, deleteCensus, id, true);
+      }}
+      setEditRecord={setEditRecord}
+    />
+  );
 
   const addRecordForm = () => (<FormPanel
     title="pages.subPages.census"
-    submitCallback={addRecord}
+    submitCallback={(model: Object) => { doOperation(model, createCensus); }}
     model={censusModel}
     isEdit={false}
   />);
@@ -149,8 +175,11 @@ const List: FunctionComponent = () => {
   const editRecordForm = () => (
     <FormPanel
       title="pages.subPages.census"
-      submitCallback={updateRecord}
+      submitCallback={(model: Object) => {
+        doOperation(model, updateCensus, editRecord.id);
+      }}
       model={censusModel}
+      data={editRecord}
       isEdit={true}
     />
   );
@@ -158,11 +187,12 @@ const List: FunctionComponent = () => {
   return (
     <>
       <Switch>
-        <Page path="/app/entities/census/add" title="page.login" component={addRecordForm} />
-        <Page path="/app/entities/census/edit" title="page.login" component={editRecordForm} />
-        <Page path="/app/entities/census" title="page.login" component={table} />
+        <Page path="/app/entities/census/add" title="pages.subPages.census" component={addRecordForm} />
+        <Page path="/app/entities/census/edit" title="pages.subPages.census" component={editRecordForm} />
+        <Page path="/app/entities/census" title="pages.subPages.census" component={table} />
       </Switch>
     </>
   );
 };
-export default memo(List);
+
+export default List;

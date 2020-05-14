@@ -11,13 +11,15 @@
         "actions": "વિકલ્પો",
         "add": "ઉમેરો",
         "edit": "સંપાદિત કરો",
-        "none": "કંઈ નહીં"
+        "none": "કંઈ નહીં",
+        "deleteRecord": "રેકોર્ડ delete કરી નાખો"
     },
     "placeholder": {
         "name": "કૃપા કરી નામ દાખલ કરો",
         "description": "કૃપા કરી વર્ણન દાખલ કરો"
     },
     "messages": {
+        "deleteConfirm": "શું તમે ખરેખર આ રેકોર્ડ delete કરી નાખવા માંગો છો?",
         "required": {
             "name": "નામ આવશ્યક છે.",
             "description": "વર્ણન આવશ્યક છે."
@@ -29,7 +31,9 @@
     "button": {
         "add": "ઉમેરો",
         "save": "સાચવો",
-        "cancel": "રદ કરો"
+        "cancel": "રદ કરો",
+        "yes": "હા",
+        "no": "ના"
     },
     "pages": {
         "login": "પ્રવેશ કરો",

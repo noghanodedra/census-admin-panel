@@ -8,6 +8,7 @@ const useForm = (initModel:Array<any>, submitCallback: Function) => {
   const [inputs, setInputs] = useState(initModel);
 
   const handleChange = (e:any) => {
+    console.log('inputs', inputs);
     e.persist();
     inputs.forEach((i: any) => {
       if (i.id === e.target.id || i.id === e.target.name) {
@@ -37,7 +38,7 @@ const useForm = (initModel:Array<any>, submitCallback: Function) => {
   const handleSubmit = (e:any) => {
     e && e.preventDefault();
     inputs.forEach((i) => validateInput(i));
-    inputs.some((i) => i.error) ? setInputs([...inputs]) : submitCallback();
+    inputs.some((i) => i.error) ? setInputs([...inputs]) : submitCallback(inputs);
   };
 
 

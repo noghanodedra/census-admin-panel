@@ -11,13 +11,15 @@
         "actions": "Actions",
         "add": "Add",
         "edit": "Edit",
-        "none": "None"
+        "none": "None",
+        "deleteRecord": "Delete Record"
     },
     "placeholder": {
         "name": "Please enter name",
         "description": "Please enter description"
     },
     "messages": {
+        "deleteConfirm": "Are you sure you want to delete this record?",
         "required": {
             "name": "Name is required.",
             "description": "Description is required."
@@ -29,7 +31,9 @@
     "button": {
         "add": "Add",
         "save": "Save",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "yes": "Yes",
+        "no": "No"
     },
     "pages": {
         "login": "Login",
