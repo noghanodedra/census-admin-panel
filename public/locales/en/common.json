@@ -8,11 +8,13 @@
         "description": "Description",
         "rowsPerPage": "Rows per page",
         "addRecord": "Add record",
+        "editRecord": "Edit record",
         "actions": "Actions",
         "add": "Add",
         "edit": "Edit",
         "none": "None",
-        "deleteRecord": "Delete Record"
+        "deleteRecord": "Delete Record",
+        "searchRecords": "Search Records"
     },
     "placeholder": {
         "name": "Please enter name",

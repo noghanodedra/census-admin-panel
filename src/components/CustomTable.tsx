@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -18,10 +18,13 @@ import {
   IconButton,
   Typography,
   Button,
+  InputBase,
+  ToolbarProps,
 } from '@material-ui/core';
 import { AddBox as AddBoxIcon } from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
 import { useHistory } from 'react-router-dom';
 
 import theme from 'core/theme';
@@ -62,26 +65,66 @@ const useToolbarStyles = makeStyles(() => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   title: {
     flex: '1 1 100%',
   },
 }));
 
-const TableToolbar = () => {
+const useSearchBarStyles = makeStyles(() => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+}));
+
+interface TableToolbarProps {
+  searchValue: String;
+  handleSearch: any;
+}
+
+const TableToolbar: FunctionComponent<TableToolbarProps> = (props) => {
   const classes = useToolbarStyles();
+  const searchBarClasses = useSearchBarStyles();
+  const { searchValue, handleSearch } = props;
+
   const { t } = useTranslation([NS.LOGIN]);
   const history = useHistory();
 
   return (
     <>
-      <Toolbar>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Table
-        </Typography>
+      <Toolbar className={classes.root}>
+        <Paper component="form" className={searchBarClasses.root}>
+          <InputBase
+            className={searchBarClasses.input}
+            placeholder={t(`${NS.COMMON}:label.searchRecords`)}
+            inputProps={{ 'aria-label': 'search records' }}
+            onChange={handleSearch}
+            value={searchValue}
+          />
+          <IconButton type="submit" className={searchBarClasses.iconButton} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+
         <Tooltip title={t(`${NS.COMMON}:label.addRecord`)}>
           <IconButton
-            aria-label="filter list"
+            aria-label="add record"
             onClick={() => {
               history.push(`${history.location.pathname}/add`);
             }}
@@ -102,6 +145,8 @@ const CustomTable: FunctionComponent<TableProps> = ({
   const history = useHistory();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [recordId, setRecordId] = useState();
+  const [filterData, setFilteredData] = useState([...rows]);
+  const [searchValue, setSearchValue] = useState('');
 
   const { t } = useTranslation([NS.LOGIN]);
   const [page, setPage] = React.useState(0);
@@ -116,13 +161,23 @@ const CustomTable: FunctionComponent<TableProps> = ({
     setPage(0);
   };
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let filteredDatas = [];
+    const searchText = event.target.value;
+    setSearchValue(searchText);
+    filteredDatas = rows.filter((item) => Object.keys(item).some(
+      (k) => item[k] != null && item[k].toString().toLowerCase().includes(searchText.toLowerCase()),
+    ));
+    setFilteredData(filteredDatas);
+  };
+
   return (
     <>
       <CssBaseline />
       <Paper className={classes.root}>
-        <TableToolbar />
+        <TableToolbar handleSearch={handleSearch} searchValue={searchValue} />
         <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="table with records">
             <TableHead>
               <TableRow key="1">
                 {columns.map((column) => (
@@ -140,6 +195,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
                   className={clsx(classes.tableHeader, {
                     minWidth: 40,
                   })}
+                  style={{ paddingRight: 60 }}
                   align="right"
                 >
                   {t(`${NS.COMMON}:label.actions`)}
@@ -147,7 +203,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filterData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index: number) => (
                   // eslint-disable-next-line react/no-array-index-key
@@ -161,26 +217,30 @@ const CustomTable: FunctionComponent<TableProps> = ({
                       );
                     })}
                     <TableCell align="right">
-                      <Button
-                        color="primary"
-                        size="small"
-                        onClick={() => {
-                          setEditRecord(row);
-                          history.push(`${history.location.pathname}/edit`);
-                        }}
-                      >
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        color="primary"
-                        size="small"
-                        onClick={() => {
-                          setConfirmOpen(true);
-                          setRecordId(row.id);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </Button>
+                      <Tooltip title={t(`${NS.COMMON}:label.editRecord`)}>
+                        <Button
+                          color="primary"
+                          size="small"
+                          onClick={() => {
+                            setEditRecord(row);
+                            history.push(`${history.location.pathname}/edit`);
+                          }}
+                        >
+                          <EditIcon />
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title={t(`${NS.COMMON}:label.deleteRecord`)}>
+                        <Button
+                          color="primary"
+                          size="small"
+                          onClick={() => {
+                            setConfirmOpen(true);
+                            setRecordId(row.id);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -192,7 +252,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
           rowsPerPageOptions={[10, 25, 100]}
           labelRowsPerPage={t(`${NS.COMMON}:label.rowsPerPage`)}
           component="div"
-          count={rows.length}
+          count={filterData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

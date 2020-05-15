@@ -8,11 +8,13 @@
         "description": "વર્ણન",
         "rowsPerPage": "પૃષ્ઠ દીઠ પંક્તિઓ",
         "addRecord": "રેકોર્ડ ઉમેરો",
+        "editRecord": "રેકોર્ડ સંપાદિત કરો",
         "actions": "વિકલ્પો",
         "add": "ઉમેરો",
         "edit": "સંપાદિત કરો",
         "none": "કંઈ નહીં",
-        "deleteRecord": "રેકોર્ડ delete કરી નાખો"
+        "deleteRecord": "રેકોર્ડ delete કરી નાખો",
+        "searchRecords": "રેકોર્ડ શોધ"
     },
     "placeholder": {
         "name": "કૃપા કરી નામ દાખલ કરો",
