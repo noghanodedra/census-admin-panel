@@ -3,7 +3,9 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost';
 const makeApolloClient = () => {
   const client = new ApolloClient({
     uri: process.env.GRAPHQL_ENDPOINT,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      addTypename: false,
+    }),
     credentials: 'include',
     request: async (operation) => {
       operation.setContext({
@@ -15,7 +17,6 @@ const makeApolloClient = () => {
     onError: ({
       graphQLErrors, networkError, operation, forward,
     }) => {
-      console.log(graphQLErrors, networkError);
       if (networkError && !graphQLErrors) {
         // console.log(`[Network error]: ${networkError}`);
         // showErrorToast('Network error.');

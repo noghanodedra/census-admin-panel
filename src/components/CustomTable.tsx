@@ -26,11 +26,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import { useHistory } from 'react-router-dom';
 
-import theme from 'core/theme';
 import { NameSpaces as NS } from 'constants/i18n';
 import ConfirmDialog from 'components/ConfirmDialog';
 
-const useStyles = makeStyles({
+
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
@@ -43,7 +43,8 @@ const useStyles = makeStyles({
   tableHeader: {
     backgroundColor: theme.palette.secondary.light,
   },
-});
+}));
+
 
 interface ColumnProps {
   id: string;
@@ -61,7 +62,7 @@ interface TableProps {
   setEditRecord?: Function
 }
 
-const useToolbarStyles = makeStyles(() => ({
+const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
@@ -73,7 +74,7 @@ const useToolbarStyles = makeStyles(() => ({
   },
 }));
 
-const useSearchBarStyles = makeStyles(() => ({
+const useSearchBarStyles = makeStyles((theme) => ({
   root: {
     padding: '2px 4px',
     display: 'flex',
@@ -195,6 +196,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
                 <TableCell
                   className={clsx(classes.tableHeader, {
                     minWidth: 40,
+                    display: 'flex',
                   })}
                   style={{ paddingRight: 60 }}
                   align="right"

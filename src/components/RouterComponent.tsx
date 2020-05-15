@@ -17,6 +17,9 @@ import { List as MaritalStatusPage } from 'features/crud/marital-status';
 import { List as GenderPage } from 'features/crud/gender';
 import { List as DistrictPage } from 'features/crud/district';
 import { List as StatePage } from 'features/crud/state';
+import { List as FamilyPage } from 'features/crud/family';
+import { List as IndividualPage } from 'features/crud/individual';
+import { List as AddressPage } from 'features/crud/address';
 
 import { ResponsiveDrawer, Page } from 'components';
 
@@ -52,7 +55,7 @@ const PrivateRoutes: React.FC = () => (
           path={RoutesConstants.ADDRESS}
           title={PageTitleConstants.ADDRESS}
           privateRoute={true}
-          component={CensusPage}
+          component={AddressPage}
         />
         <Page
           path={RoutesConstants.CASTE}
@@ -82,7 +85,7 @@ const PrivateRoutes: React.FC = () => (
           path={RoutesConstants.FAMILY}
           title={PageTitleConstants.FAMILY}
           privateRoute={true}
-          component={CensusPage}
+          component={FamilyPage}
         />
         <Page
           path={RoutesConstants.GENDER}
@@ -94,7 +97,7 @@ const PrivateRoutes: React.FC = () => (
           path={RoutesConstants.INDIVIDUAL}
           title={PageTitleConstants.INDIVIDUAL}
           privateRoute={true}
-          component={CensusPage}
+          component={IndividualPage}
         />
         <Page
           path={RoutesConstants.INCOME_CLASS}

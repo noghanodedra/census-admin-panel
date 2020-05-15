@@ -3,20 +3,11 @@ import { checkIsfilled, checkAtLeastLength } from 'utils/inputValidators';
 
 const columnModel = [
   {
-    id: 'name',
+    id: 'headName',
     label: 'Name',
     minWidth: 170,
     align: 'left',
     i18nKey: `${NS.COMMON}:label.name`,
-    type: 'text',
-  },
-  {
-    id: 'state',
-    label: 'State',
-    nestedProp: 'name',
-    minWidth: 180,
-    align: 'left',
-    i18nKey: `${NS.COMMON}:label.state`,
     type: 'text',
   },
 ];
@@ -24,7 +15,7 @@ const columnModel = [
 
 const entityModel = [
   {
-    id: 'name',
+    id: 'headName',
     label: `${NS.COMMON}:label.name`,
     placeholder: `${NS.COMMON}:placeholder.name`,
     type: 'text',
@@ -41,28 +32,6 @@ const entityModel = [
         alert: `${NS.COMMON}:messages.length.name`,
       },
     ],
-  },
-  {
-    id: 'stateId',
-    label: `${NS.COMMON}:label.state`,
-    placeholder: 'Select state',
-    type: 'select',
-    defaultValue: '',
-    lookUp: {
-      key: 'name',
-      value: 'id',
-      entity: 'state',
-      optionsKey: 'stateList',
-      options: [{}],
-    },
-    validators: [
-      {
-        id: 'required',
-        isValidFun: (expression: any) => checkIsfilled(expression),
-        alert: `${NS.COMMON}:messages.required.name`,
-      },
-    ],
-    parseFunc: (expression: any) => parseInt(expression, 10),
   },
 ];
 

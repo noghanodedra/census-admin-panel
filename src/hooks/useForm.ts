@@ -42,7 +42,7 @@ const useForm = (initModel:Array<any>, submitCallback: Function) => {
   };
 
 
-  const parseInput = (input:any) => (input.value = input.parseFun ? input.parseFun(input.value) : input.value);
+  const parseInput = (input:any) => (input.value = input.parseFunc ? input.parseFunc(input.value) : input.value);
 
   const validateInput = (input:any) => {
     let alert: string = null;

@@ -8,42 +8,44 @@ import { Switch, useHistory } from 'react-router-dom';
 import { CustomTable, Page } from 'components';
 import FormPanel from 'components/FormPanel';
 import { LoadingContext } from 'contexts';
-import { modelToObject, setLookUpOptions } from 'utils/helpers';
-import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
-import { usePersistedState } from 'hooks';
-import { columnModel, entityModel as districtModel } from './models';
+import { modelToObject } from 'utils/helpers';
+import { RoutesConstants, PageTitleConstants } from 'constants/common';
+import { columnModel, entityModel as addressModel } from './models';
 
 const GET_DATA = gql`
-  {
-    districtList {
-      id
-      name
-      state {
-        id
-        name
-      }
+    {
+        addressList {
+            id
+            line1
+            line2
+            line3
+            postcode
+            townCity
+            district
+            state
+        }
     }
-  }`;
+`;
 
 const ADD_RECORD = gql`
-    mutation createDistrict($district: CreateDistrictInput!) {
-        createDistrict(data: $district) {
+    mutation createAddress($address: CreateAddressInput!) {
+        createAddress(data: $address) {
             id
         }
     }
 `;
 
 const UPDATE_RECORD = gql`
-    mutation updateDistrict($id: String!, $district: UpdateDistrictInput!) {
-        updateDistrict(id: $id, data: $district) {
+    mutation updateAddress($id: String!, $address: UpdateAddressInput!) {
+        updateAddress(id: $id, data: $address) {
             id
         }
     }
 `;
 
 const DELETE_RECORD = gql`
-    mutation deleteDistrict($id: String!) {
-        deleteDistrict(id: $id)
+    mutation deleteAddress($id: String!) {
+        deleteAddress(id: $id)
     }
 `;
 
@@ -52,14 +54,12 @@ const List: FunctionComponent = () => {
   const history = useHistory();
   const [refetch, setRefetch] = useState(null);
   const [editRecord, setEditRecord] = useState(null);
-  const [dropDownData, setDropDownData] = usePersistedState(CommonConstants.DROP_DOWN_DATA);
-  setLookUpOptions(districtModel, dropDownData);
 
   const { loading, data } = useQuery(GET_DATA, { variables: { antiCache: refetch }, fetchPolicy: 'network-only' });
 
-  const [createDistrict] = useMutation(ADD_RECORD);
-  const [updateDistrict] = useMutation(UPDATE_RECORD);
-  const [deleteDistrict] = useMutation(DELETE_RECORD);
+  const [createAddress] = useMutation(ADD_RECORD);
+  const [updateAddress] = useMutation(UPDATE_RECORD);
+  const [deleteAddress] = useMutation(DELETE_RECORD);
 
   useEffect(() => {
     if (loading) {
@@ -76,8 +76,8 @@ const List: FunctionComponent = () => {
   const doOperation = (model:Object, mutationFn: Function, id?:string, del:boolean = false) => {
     let requestFn = null;
     if (!del) {
-      const district = modelToObject(model);
-      requestFn = id ? mutationFn({ variables: { id, district } }) : mutationFn({ variables: { district } });
+      const address = modelToObject(model);
+      requestFn = id ? mutationFn({ variables: { id, address } }) : mutationFn({ variables: { address } });
     } else {
       requestFn = mutationFn({ variables: { id } });
     }
@@ -87,7 +87,7 @@ const List: FunctionComponent = () => {
         hideLoading();
         setEditRecord(null);
         setRefetch(new Date().getTime());
-        history.replace(`${RoutesConstants.DISTRICT}`);
+        history.replace(`${RoutesConstants.ADDRESS}`);
       })
       .catch((e: any) => {
         console.log(e);
@@ -97,10 +97,10 @@ const List: FunctionComponent = () => {
 
   const table = () => (
     <CustomTable
-      rows={data.districtList}
+      rows={data.addressList}
       columns={...columnModel}
       delCallback={(id: string) => {
-        doOperation(null, deleteDistrict, id, true);
+        doOperation(null, deleteAddress, id, true);
       }}
       setEditRecord={setEditRecord}
     />
@@ -108,22 +108,22 @@ const List: FunctionComponent = () => {
 
   const addRecordForm = () => (
     <FormPanel
-      title={PageTitleConstants.DISTRICT}
+      title={PageTitleConstants.ADDRESS}
       submitCallback={(model: Object) => {
-        doOperation(model, createDistrict);
+        doOperation(model, createAddress);
       }}
-      model={districtModel}
+      model={addressModel}
       isEdit={false}
     />
   );
 
   const editRecordForm = () => (
     <FormPanel
-      title={PageTitleConstants.DISTRICT}
+      title={PageTitleConstants.ADDRESS}
       submitCallback={(model: Object) => {
-        doOperation(model, updateDistrict, editRecord.id);
+        doOperation(model, updateAddress, editRecord.id);
       }}
-      model={districtModel}
+      model={addressModel}
       data={editRecord}
       isEdit={true}
     />
@@ -132,13 +132,13 @@ const List: FunctionComponent = () => {
   return (
     <>
       <Switch>
-        <Page path={`${RoutesConstants.DISTRICT}/add`} title={PageTitleConstants.DISTRICT} component={addRecordForm} />
+        <Page path={`${RoutesConstants.ADDRESS}/add`} title={PageTitleConstants.ADDRESS} component={addRecordForm} />
         <Page
-          path={`${RoutesConstants.DISTRICT}/edit`}
-          title={PageTitleConstants.DISTRICT}
+          path={`${RoutesConstants.ADDRESS}/edit`}
+          title={PageTitleConstants.ADDRESS}
           component={editRecordForm}
         />
-        <Page path={`${RoutesConstants.DISTRICT}`} title={PageTitleConstants.DISTRICT} component={table} />
+        <Page path={`${RoutesConstants.ADDRESS}`} title={PageTitleConstants.ADDRESS} component={table} />
       </Switch>
     </>
   );

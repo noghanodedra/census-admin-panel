@@ -8,42 +8,38 @@ import { Switch, useHistory } from 'react-router-dom';
 import { CustomTable, Page } from 'components';
 import FormPanel from 'components/FormPanel';
 import { LoadingContext } from 'contexts';
-import { modelToObject, setLookUpOptions } from 'utils/helpers';
-import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
-import { usePersistedState } from 'hooks';
-import { columnModel, entityModel as districtModel } from './models';
+import { modelToObject } from 'utils/helpers';
+import { RoutesConstants, PageTitleConstants } from 'constants/common';
+import { columnModel, entityModel as familyModel } from './models';
 
 const GET_DATA = gql`
-  {
-    districtList {
-      id
-      name
-      state {
-        id
-        name
-      }
+    {
+        familyList {
+            id
+            headName
+        }
     }
-  }`;
+`;
 
 const ADD_RECORD = gql`
-    mutation createDistrict($district: CreateDistrictInput!) {
-        createDistrict(data: $district) {
+    mutation createFamily($family: CreateFamilyInput!) {
+        createFamily(data: $family) {
             id
         }
     }
 `;
 
 const UPDATE_RECORD = gql`
-    mutation updateDistrict($id: String!, $district: UpdateDistrictInput!) {
-        updateDistrict(id: $id, data: $district) {
+    mutation updateFamily($id: String!, $family: UpdateFamilyInput!) {
+        updateFamily(id: $id, data: $family) {
             id
         }
     }
 `;
 
 const DELETE_RECORD = gql`
-    mutation deleteDistrict($id: String!) {
-        deleteDistrict(id: $id)
+    mutation deleteFamily($id: String!) {
+        deleteFamily(id: $id)
     }
 `;
 
@@ -52,14 +48,12 @@ const List: FunctionComponent = () => {
   const history = useHistory();
   const [refetch, setRefetch] = useState(null);
   const [editRecord, setEditRecord] = useState(null);
-  const [dropDownData, setDropDownData] = usePersistedState(CommonConstants.DROP_DOWN_DATA);
-  setLookUpOptions(districtModel, dropDownData);
 
   const { loading, data } = useQuery(GET_DATA, { variables: { antiCache: refetch }, fetchPolicy: 'network-only' });
 
-  const [createDistrict] = useMutation(ADD_RECORD);
-  const [updateDistrict] = useMutation(UPDATE_RECORD);
-  const [deleteDistrict] = useMutation(DELETE_RECORD);
+  const [createFamily] = useMutation(ADD_RECORD);
+  const [updateFamily] = useMutation(UPDATE_RECORD);
+  const [deleteFamily] = useMutation(DELETE_RECORD);
 
   useEffect(() => {
     if (loading) {
@@ -76,8 +70,8 @@ const List: FunctionComponent = () => {
   const doOperation = (model:Object, mutationFn: Function, id?:string, del:boolean = false) => {
     let requestFn = null;
     if (!del) {
-      const district = modelToObject(model);
-      requestFn = id ? mutationFn({ variables: { id, district } }) : mutationFn({ variables: { district } });
+      const family = modelToObject(model);
+      requestFn = id ? mutationFn({ variables: { id, family } }) : mutationFn({ variables: { family } });
     } else {
       requestFn = mutationFn({ variables: { id } });
     }
@@ -87,7 +81,7 @@ const List: FunctionComponent = () => {
         hideLoading();
         setEditRecord(null);
         setRefetch(new Date().getTime());
-        history.replace(`${RoutesConstants.DISTRICT}`);
+        history.replace(`${RoutesConstants.FAMILY}`);
       })
       .catch((e: any) => {
         console.log(e);
@@ -97,10 +91,10 @@ const List: FunctionComponent = () => {
 
   const table = () => (
     <CustomTable
-      rows={data.districtList}
+      rows={data.familyList}
       columns={...columnModel}
       delCallback={(id: string) => {
-        doOperation(null, deleteDistrict, id, true);
+        doOperation(null, deleteFamily, id, true);
       }}
       setEditRecord={setEditRecord}
     />
@@ -108,22 +102,22 @@ const List: FunctionComponent = () => {
 
   const addRecordForm = () => (
     <FormPanel
-      title={PageTitleConstants.DISTRICT}
+      title={PageTitleConstants.FAMILY}
       submitCallback={(model: Object) => {
-        doOperation(model, createDistrict);
+        doOperation(model, createFamily);
       }}
-      model={districtModel}
+      model={familyModel}
       isEdit={false}
     />
   );
 
   const editRecordForm = () => (
     <FormPanel
-      title={PageTitleConstants.DISTRICT}
+      title={PageTitleConstants.FAMILY}
       submitCallback={(model: Object) => {
-        doOperation(model, updateDistrict, editRecord.id);
+        doOperation(model, updateFamily, editRecord.id);
       }}
-      model={districtModel}
+      model={familyModel}
       data={editRecord}
       isEdit={true}
     />
@@ -132,13 +126,13 @@ const List: FunctionComponent = () => {
   return (
     <>
       <Switch>
-        <Page path={`${RoutesConstants.DISTRICT}/add`} title={PageTitleConstants.DISTRICT} component={addRecordForm} />
+        <Page path={`${RoutesConstants.FAMILY}/add`} title={PageTitleConstants.FAMILY} component={addRecordForm} />
         <Page
-          path={`${RoutesConstants.DISTRICT}/edit`}
-          title={PageTitleConstants.DISTRICT}
+          path={`${RoutesConstants.FAMILY}/edit`}
+          title={PageTitleConstants.FAMILY}
           component={editRecordForm}
         />
-        <Page path={`${RoutesConstants.DISTRICT}`} title={PageTitleConstants.DISTRICT} component={table} />
+        <Page path={`${RoutesConstants.FAMILY}`} title={PageTitleConstants.FAMILY} component={table} />
       </Switch>
     </>
   );

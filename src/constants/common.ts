@@ -1,5 +1,6 @@
 const CommonConstants = {
   USER_DETAILS: 'USER_DETAILS',
+  DROP_DOWN_DATA: 'drop_down_data',
 };
 
 const RoutesConstants = {

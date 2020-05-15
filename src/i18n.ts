@@ -15,7 +15,7 @@ i18n
     lng: localStorage.getItem('locale') as string | 'en',
     fallbackLng: 'en',
     whitelist: ['en', 'gu'],
-    ns: ['common', 'login'],
+    ns: ['common', 'login', 'crud'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default

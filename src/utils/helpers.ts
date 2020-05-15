@@ -29,3 +29,12 @@ export const deepCopy = (inObject:any) => {
 
   return outObject;
 };
+
+export const setLookUpOptions = (model: any, data: Object) => {
+  model.map((field: any) => {
+    if (field.lookUp && field.lookUp.optionsKey) {
+      // eslint-disable-next-line no-param-reassign
+      field.lookUp.options = [...data[field.lookUp.optionsKey]];
+    }
+  });
+};

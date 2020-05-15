@@ -22,7 +22,7 @@ const SelectInput = ({ ...props }) => {
   const { t } = useTranslation([NS.COMMON]);
 
   const {
-    id, label, error, helperText, onChange, lookUp,
+    id, label, error, helperText, onChange, lookUp, data,
   } = props;
 
   return (
@@ -33,7 +33,7 @@ const SelectInput = ({ ...props }) => {
         id={`${id}-select-outlined`}
         label={label}
         name={id}
-        defaultValue=""
+        defaultValue={data[lookUp.entity][lookUp.value] || ''}
         onChange={(event) => onChange(event)}
         required
       >

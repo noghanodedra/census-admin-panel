@@ -67,9 +67,8 @@ const FormPanel = ({
 
   const renderInput = (input:any) => {
     const Component = getComponent(input.type);
-    return (
-      <Component key={input.id} onChange={handleChange} {...input} />
-    );
+    const datas = isEdit ? { data } : null;
+    return <Component key={input.id} onChange={handleChange} {...input} {...datas} />;
   };
 
   const getTitle = () => `${t(`${NS.COMMON}:${isEdit ? 'label.edit' : 'label.add'}`)} - ${t(`${NS.COMMON}:${title}`)}`;
