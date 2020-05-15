@@ -37,7 +37,10 @@ const UserInfo: FunctionComponent<IProps> = (props: IProps) => {
   const classes = useStyles();
   const { userDetails } = props;
 
-  const getInitials = () => (userDetails.firstName.charAt(0) + userDetails.lastName.charAt(0)).toUpperCase();
+  const getInitials = () => {
+    if (userDetails) { return (userDetails.firstName.charAt(0) + userDetails.lastName.charAt(0)).toUpperCase(); }
+    return '';
+  };
 
   return (
     <>

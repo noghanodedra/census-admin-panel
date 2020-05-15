@@ -28,6 +28,19 @@ import {
   ExpandMore as More,
   List as ListIcon,
   Group as GroupIcon,
+  Email as AddressIcon,
+  SupervisedUserCircle as CasteIcon,
+  ListAlt as DistrictIcon,
+  HorizontalSplit as StateIcon,
+  CastForEducation as EducationIcon,
+  PeopleOutline as FamilyIcon,
+  PermIdentity as GenderIcon,
+  Money as IncomeClassIcon,
+  Accessibility as IndividualIcon,
+  GroupAdd as MaritalStatusIcon,
+  DragHandle as RelationshipIcon,
+  WorkOutline as WorkClassIcon,
+  Business as OccupationIcon,
 } from '@material-ui/icons';
 
 
@@ -38,7 +51,7 @@ import { NameSpaces as NS } from 'constants/i18n';
 import LocaleDropdown from 'components/LocaleDropdown';
 import { useLoading } from 'providers/LoadingProvider';
 import { LOGOUT_USER } from 'constants/graphql-queries-mutations';
-import CommonConstants from 'constants/common';
+import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
 import UserInfo from './UserInfo';
 
 // https://codesandbox.io/s/deopk?file=/demo.js:0-6582
@@ -47,7 +60,6 @@ import UserInfo from './UserInfo';
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
-
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -74,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    height: '100%',
   },
   drawerHeader: {
     display: 'flex',
@@ -128,7 +141,30 @@ const ResponsiveDrawer = ({ ...props }) => {
       label: 'pages.entities',
       path: '/app/entities',
       icon: <ListIcon />,
-      subItems: [{ label: 'pages.subPages.census', path: '/app/entities/census', icon: <GroupIcon /> }],
+      subItems: [
+        { label: 'pages.subPages.address', path: '/app/entities/address', icon: <AddressIcon /> },
+        { label: 'pages.subPages.caste', path: '/app/entities/caste', icon: <CasteIcon /> },
+        { label: 'pages.subPages.census', path: '/app/entities/census', icon: <GroupIcon /> },
+        { label: 'pages.subPages.district', path: '/app/entities/district', icon: <DistrictIcon /> },
+        { label: 'pages.subPages.education', path: '/app/entities/education', icon: <EducationIcon /> },
+        { label: 'pages.subPages.family', path: '/app/entities/family', icon: <FamilyIcon /> },
+        { label: 'pages.subPages.gender', path: '/app/entities/gender', icon: <GenderIcon /> },
+        { label: 'pages.subPages.incomeclass', path: '/app/entities/incomeclass', icon: <IncomeClassIcon /> },
+        { label: 'pages.subPages.individual', path: '/app/entities/individual', icon: <IndividualIcon /> },
+        {
+          label: 'pages.subPages.maritalstatus',
+          path: '/app/entities/maritalstatus',
+          icon: <MaritalStatusIcon />,
+        },
+        {
+          label: 'pages.subPages.occupation',
+          path: '/app/entities/occupation',
+          icon: <OccupationIcon />,
+        },
+        { label: 'pages.subPages.relationship', path: '/app/entities/relationship', icon: <RelationshipIcon /> },
+        { label: 'pages.subPages.state', path: '/app/entities/state', icon: <StateIcon /> },
+        { label: 'pages.subPages.workclass', path: '/app/entities/workclass', icon: <WorkClassIcon /> },
+      ],
     },
   ];
 
@@ -166,7 +202,15 @@ const ResponsiveDrawer = ({ ...props }) => {
       </ListItem>
       <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
         <Divider />
-        <List component="div" disablePadding style={{ paddingLeft: 55 }}>
+        <List
+          component="div"
+          disablePadding
+          style={{
+            paddingLeft: 55,
+            overflow: 'auto',
+            height: 280,
+          }}
+        >
           {item.subItems.map((subItem: any, subIndex: number) => {
             if (Array.isArray(subItem.subItems)) {
               return menuItemWithSubMenu(subItem, subIndex);
@@ -231,7 +275,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <UserInfo userDetails={userDetails} />
+          {userDetails && <UserInfo userDetails={userDetails} /> }
           <IconButton onClick={handleDrawerClose} className={classes.iconButton}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>

@@ -3,14 +3,22 @@ import {
   HashRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
 
-import CommonConstants from 'constants/common';
-import { Dashboard } from 'features/dashboard';
-import { Login } from 'features/login';
-import { List as Census } from 'features/crud/census';
+import { RoutesConstants, PageTitleConstants } from 'constants/common';
+import { Dashboard as DashboardPage } from 'features/dashboard';
+import { Login as LoginPage } from 'features/login';
+import { List as CensusPage } from 'features/crud/census';
+import { List as CastePage } from 'features/crud/caste';
+import { List as EducationPage } from 'features/crud/education';
+import { List as IncomeClassPage } from 'features/crud/income-class';
+import { List as WorkClassPage } from 'features/crud/work-class';
+import { List as RelationshipPage } from 'features/crud/relationship';
+import { List as OccupationPage } from 'features/crud/occupation';
+import { List as MaritalStatusPage } from 'features/crud/marital-status';
+import { List as GenderPage } from 'features/crud/gender';
+import { List as DistrictPage } from 'features/crud/district';
+import { List as StatePage } from 'features/crud/state';
 
 import { ResponsiveDrawer, Page } from 'components';
-// https://codesandbox.io/s/hungry-dubinsky-q1l62?fontsize=14&file=/src/index.js
-// https://stackoverflow.com/questions/56711663/react-router-v5-0-nested-routes
 
 const AppRouter = () => (
   <>
@@ -22,9 +30,9 @@ const AppRouter = () => (
 
 const Layouts = () => (
   <Switch>
-    <Route path="/auth" component={AuthRoutes} />
-    <Route path="/app" component={PrivateRoutes} />
-    <Redirect from="/" to="/auth/login" exact />
+    <Route path={RoutesConstants.AUTH} component={AuthRoutes} />
+    <Route path={RoutesConstants.APP} component={PrivateRoutes} />
+    <Redirect from="/" to={RoutesConstants.LOGIN} exact />
     <Route />
   </Switch>
 );
@@ -33,15 +41,98 @@ const PrivateRoutes: React.FC = () => (
   <>
     <ResponsiveDrawer>
       <Switch>
-        <Page path="/app/home" privateRoute={true} title="pages.dashboard" exact component={Dashboard} />
         <Page
-          path="/app/entities/census"
-          title="pages.subPages.census"
+          path={RoutesConstants.HOME}
           privateRoute={true}
-          component={Census}
+          title={PageTitleConstants.HOME}
+          exact
+          component={DashboardPage}
         />
-
-        <Redirect from="/app" to="/app/home" exact />
+        <Page
+          path={RoutesConstants.ADDRESS}
+          title={PageTitleConstants.ADDRESS}
+          privateRoute={true}
+          component={CensusPage}
+        />
+        <Page
+          path={RoutesConstants.CASTE}
+          title={PageTitleConstants.CASTE}
+          privateRoute={true}
+          component={CastePage}
+        />
+        <Page
+          path={RoutesConstants.CENSUS}
+          title={PageTitleConstants.CENSUS}
+          privateRoute={true}
+          component={CensusPage}
+        />
+        <Page
+          path={RoutesConstants.DISTRICT}
+          title={PageTitleConstants.DISTRICT}
+          privateRoute={true}
+          component={DistrictPage}
+        />
+        <Page
+          path={RoutesConstants.EDUCATION}
+          title={PageTitleConstants.EDUCATION}
+          privateRoute={true}
+          component={EducationPage}
+        />
+        <Page
+          path={RoutesConstants.FAMILY}
+          title={PageTitleConstants.FAMILY}
+          privateRoute={true}
+          component={CensusPage}
+        />
+        <Page
+          path={RoutesConstants.GENDER}
+          title={PageTitleConstants.GENDER}
+          privateRoute={true}
+          component={GenderPage}
+        />
+        <Page
+          path={RoutesConstants.INDIVIDUAL}
+          title={PageTitleConstants.INDIVIDUAL}
+          privateRoute={true}
+          component={CensusPage}
+        />
+        <Page
+          path={RoutesConstants.INCOME_CLASS}
+          title={PageTitleConstants.INCOME_CLASS}
+          privateRoute={true}
+          component={IncomeClassPage}
+        />
+        <Page
+          path={RoutesConstants.MARITAL_STATUS}
+          title={PageTitleConstants.MARITAL_STATUS}
+          privateRoute={true}
+          component={MaritalStatusPage}
+        />
+        <Page
+          path={RoutesConstants.OCCUPATION}
+          title={PageTitleConstants.OCCUPATION}
+          privateRoute={true}
+          component={OccupationPage}
+        />
+        <Page
+          path={RoutesConstants.RELATIONSHIP}
+          title={PageTitleConstants.RELATIONSHIP}
+          privateRoute={true}
+          component={RelationshipPage}
+        />
+        <Page
+          path={RoutesConstants.STATE}
+          title={PageTitleConstants.STATE}
+          privateRoute={true}
+          component={StatePage}
+        />
+        <Page
+          path={RoutesConstants.WORK_CLASS}
+          title={PageTitleConstants.WORK_CLASS}
+          privateRoute={true}
+          component={WorkClassPage}
+        />
+        <Redirect from={RoutesConstants.APP} to={RoutesConstants.HOME} exact />
         <Route />
       </Switch>
     </ResponsiveDrawer>
@@ -51,8 +142,8 @@ const PrivateRoutes: React.FC = () => (
 const AuthRoutes: React.FC = () => (
   <>
     <Switch>
-      <Page path="/auth/login" title="pages.login" exact component={Login} />
-      <Redirect from="/" to="/auth/login" exact />
+      <Page path={RoutesConstants.LOGIN} title={PageTitleConstants.LOGIN} exact component={LoginPage} />
+      <Redirect from="/" to={RoutesConstants.LOGIN} exact />
       <Route />
     </Switch>
   </>

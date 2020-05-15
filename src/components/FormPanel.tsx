@@ -50,7 +50,7 @@ const FormPanel = ({
     });
   }
   const { inputs, handleChange, handleSubmit } = useForm(modelClone, submitCallback);
-  const myClonedArray = deepCopy(inputs);
+  const inputsClone = deepCopy(inputs);
 
   const getComponent = (inputType: string) => {
     switch (inputType) {
@@ -80,7 +80,7 @@ const FormPanel = ({
         <Card className={classes.card}>
           <CardHeader className={classes.header} title={getTitle()} />
           <CardContent>
-            <div>{myClonedArray.map((input: any) => renderInput(input))}</div>
+            <div>{inputsClone.map((input: any) => renderInput(input))}</div>
           </CardContent>
           <CardActions style={{ justifyContent: 'space-between', margin: 8 }}>
             <Button

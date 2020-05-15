@@ -6,6 +6,8 @@
         "logout": "Logout",
         "name": "Name",
         "description": "Description",
+        "code": "Code",
+        "state": "State",
         "rowsPerPage": "Rows per page",
         "addRecord": "Add record",
         "editRecord": "Edit record",
@@ -17,14 +19,16 @@
         "searchRecords": "Search Records"
     },
     "placeholder": {
-        "name": "Please enter name",
-        "description": "Please enter description"
+        "name": "Please enter the name",
+        "description": "Please enter the description",
+        "code": "Please enter the code"
     },
     "messages": {
         "deleteConfirm": "Are you sure you want to delete this record?",
         "required": {
             "name": "Name is required.",
-            "description": "Description is required."
+            "description": "Description is required.",
+            "code": "Code is required."
         },
         "length": {
             "name": "Name is too short."
@@ -42,7 +46,20 @@
         "dashboard": "Dashboard",
         "entities": "Entities",
         "subPages": {
-            "census": "Census"
+            "census": "Census",
+            "caste": "Caste",
+            "gender": "Gender",
+            "address": "Address",
+            "family": "Family",
+            "individual": "Individual",
+            "state": "State",
+            "district": "District",
+            "maritalstatus": "Marital Status",
+            "incomeclass": "Income Class",
+            "relationship": "Relationship",
+            "workclass": "Work Class",
+            "education": "Education",
+            "occupation": "Occupation"
         }
     }
 }

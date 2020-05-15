@@ -9,6 +9,7 @@ import { CustomTable, Page } from 'components';
 import FormPanel from 'components/FormPanel';
 import { LoadingContext } from 'contexts';
 import { modelToObject } from 'utils/helpers';
+import { RoutesConstants, PageTitleConstants } from 'constants/common';
 import { columnModel, entityModel as censusModel } from './models';
 
 
@@ -121,7 +122,6 @@ const List: FunctionComponent = () => {
     } else {
       hideLoading();
     }
-    console.log(data);
   }, [loading]);
 
   if (loading) {
@@ -130,12 +130,8 @@ const List: FunctionComponent = () => {
 
   const doOperation = (model:Object, mutationFn: Function, id?:string, del:boolean = false) => {
     let requestFn = null;
-    console.log('id', id, 'ed', editRecord);
-    console.log('model', model);
-
     if (!del) {
       const census = modelToObject(model);
-      console.log('recor', census);
       requestFn = id ? mutationFn({ variables: { id, census } }) : mutationFn({ variables: { census } });
     } else {
       requestFn = mutationFn({ variables: { id } });
@@ -146,7 +142,7 @@ const List: FunctionComponent = () => {
         hideLoading();
         setEditRecord(null);
         setRefetch(new Date().getTime());
-        history.replace('/app/entities/census');
+        history.replace(`${RoutesConstants.CENSUS}`);
       })
       .catch((e: any) => {
         console.log(e);
@@ -165,16 +161,20 @@ const List: FunctionComponent = () => {
     />
   );
 
-  const addRecordForm = () => (<FormPanel
-    title="pages.subPages.census"
-    submitCallback={(model: Object) => { doOperation(model, createCensus); }}
-    model={censusModel}
-    isEdit={false}
-  />);
+  const addRecordForm = () => (
+    <FormPanel
+      title={PageTitleConstants.CENSUS}
+      submitCallback={(model: Object) => {
+        doOperation(model, createCensus);
+      }}
+      model={censusModel}
+      isEdit={false}
+    />
+  );
 
   const editRecordForm = () => (
     <FormPanel
-      title="pages.subPages.census"
+      title={PageTitleConstants.CENSUS}
       submitCallback={(model: Object) => {
         doOperation(model, updateCensus, editRecord.id);
       }}
@@ -187,9 +187,17 @@ const List: FunctionComponent = () => {
   return (
     <>
       <Switch>
-        <Page path="/app/entities/census/add" title="pages.subPages.census" component={addRecordForm} />
-        <Page path="/app/entities/census/edit" title="pages.subPages.census" component={editRecordForm} />
-        <Page path="/app/entities/census" title="pages.subPages.census" component={table} />
+        <Page
+          path={`${RoutesConstants.CENSUS}/add`}
+          title={PageTitleConstants.CENSUS}
+          component={addRecordForm}
+        />
+        <Page
+          path={`${RoutesConstants.CENSUS}/edit`}
+          title={PageTitleConstants.CENSUS}
+          component={editRecordForm}
+        />
+        <Page path={`${RoutesConstants.CENSUS}`} title={PageTitleConstants.CENSUS} component={table} />
       </Switch>
     </>
   );

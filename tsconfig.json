@@ -13,7 +13,7 @@
         "esModuleInterop": true,
         // Base directory to resolve non-relative module names.
         "baseUrl": "src",
-        "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": false,
         "skipLibCheck": true,
         "removeComments": true,
         "preserveConstEnums": true,

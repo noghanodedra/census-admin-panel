@@ -23,7 +23,7 @@ import { Logo, LocaleDropdown } from 'components';
 import { LoadingContext } from 'contexts';
 
 import { NameSpaces as NS } from 'constants/i18n';
-import CommonConstants from 'constants/common';
+import { CommonConstants, RoutesConstants } from 'constants/common';
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -87,7 +87,7 @@ const Login = () => {
       .then(({ data }) => {
         hideLoading();
         sessionStorage.setItem(CommonConstants.USER_DETAILS, JSON.stringify(data.login.profile));
-        history.replace('/app/home');
+        history.replace(`${RoutesConstants.HOME}`);
       })
       .catch((e) => {
         hideLoading();

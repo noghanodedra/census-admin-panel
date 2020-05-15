@@ -16,10 +16,9 @@ import {
   Toolbar,
   Tooltip,
   IconButton,
-  Typography,
   Button,
   InputBase,
-  ToolbarProps,
+
 } from '@material-ui/core';
 import { AddBox as AddBoxIcon } from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -42,7 +41,7 @@ const useStyles = makeStyles({
     backgroundColor: theme.palette.grey[200],
   },
   tableHeader: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.light,
   },
 });
 
@@ -52,6 +51,7 @@ interface ColumnProps {
   minWidth?: number;
   align?: any;
   i18nKey?: string;
+  nestedProp?:string;
 }
 
 interface TableProps {
@@ -149,6 +149,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
   const [searchValue, setSearchValue] = useState('');
 
   const { t } = useTranslation([NS.LOGIN]);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -179,7 +180,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="table with records">
             <TableHead>
-              <TableRow key="1">
+              <TableRow key="t_row_1">
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -209,7 +210,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
                   // eslint-disable-next-line react/no-array-index-key
                   <TableRow hover role="checkbox" tabIndex={-1} key={`row_${page}_${index}`}>
                     {columns.map((column) => {
-                      const value = row[column.id];
+                      const value = column.nestedProp ? row[column.id][column.nestedProp] : row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {value}

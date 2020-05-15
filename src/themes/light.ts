@@ -8,7 +8,7 @@ export const lightTheme = responsiveFontSizes(
         main: '#679b9b',
       },
       secondary: {
-        main: '#6983aa',
+        main: '#e3f6f5',
       },
     },
     overrides: {
@@ -16,7 +16,7 @@ export const lightTheme = responsiveFontSizes(
         root: {
           color: '#679b9b',
           '&$selected': {
-            // backgroundColor: '#6983aa',
+            // backgroundColor: '#e3f6f5',
           },
         },
       },
@@ -28,13 +28,20 @@ export const lightTheme = responsiveFontSizes(
       MuiMenuItem: {
         root: {
           '&$selected': {
-            backgroundColor: '#6983aa',
+            backgroundColor: '#e3f6f5',
           },
         },
       },
       MuiIconButton: {
         root: {
           color: '#679b9b',
+        },
+      },
+      MuiCircularProgress: {
+        root: {
+          left: '45%',
+          position: 'absolute',
+          top: '27vh',
         },
       },
     },

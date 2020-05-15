@@ -6,6 +6,8 @@
         "logout": "લૉગ આઉટ",
         "name": "નામ",
         "description": "વર્ણન",
+        "code": "કોડ",
+        "state": "રાજ્ય",
         "rowsPerPage": "પૃષ્ઠ દીઠ પંક્તિઓ",
         "addRecord": "રેકોર્ડ ઉમેરો",
         "editRecord": "રેકોર્ડ સંપાદિત કરો",
@@ -18,13 +20,15 @@
     },
     "placeholder": {
         "name": "કૃપા કરી નામ દાખલ કરો",
-        "description": "કૃપા કરી વર્ણન દાખલ કરો"
+        "description": "કૃપા કરી વર્ણન દાખલ કરો",
+        "code": "કોડ દાખલ કરો"
     },
     "messages": {
         "deleteConfirm": "શું તમે ખરેખર આ રેકોર્ડ delete કરી નાખવા માંગો છો?",
         "required": {
             "name": "નામ આવશ્યક છે.",
-            "description": "વર્ણન આવશ્યક છે."
+            "description": "વર્ણન આવશ્યક છે.",
+            "code": "કોડ આવશ્યક છે."
         },
         "length": {
             "name": "નામ ખૂબ ટૂંકું છે."
@@ -42,7 +46,20 @@
         "dashboard": "ડેશબોર્ડ",
         "entities": "એન્ટિટીયો",
         "subPages": {
-            "census": "વસ્તી ગણતરી"
+            "census": "વસ્તી ગણતરી",
+            "caste": "જાતિ",
+            "gender": "લિંગ",
+            "address": "સરનામું",
+            "family": "કુટુંબ",
+            "individual": "વ્યક્તિગત",
+            "state": "રાજ્ય",
+            "district": "જીલ્લો",
+            "maritalstatus": "વૈવાહિક સ્થિતિ",
+            "incomeclass": "આવકનો વર્ગ",
+            "relationship": "સંબંધ",
+            "workclass": "વર્ક ક્લાસ",
+            "education": "શિક્ષણ",
+            "occupation": "વ્યવસાય"
         }
     }
 }
