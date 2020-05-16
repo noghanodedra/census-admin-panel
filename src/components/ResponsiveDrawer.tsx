@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,7 +16,9 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
+  Snackbar,
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import {
   ExitToApp as ExitToAppIcon,
@@ -53,9 +55,6 @@ import { useLoading } from 'providers/LoadingProvider';
 import { LOGOUT_USER } from 'constants/graphql-queries-mutations';
 import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
 import UserInfo from './UserInfo';
-
-// https://codesandbox.io/s/deopk?file=/demo.js:0-6582
-// https://stackblitz.com/edit/app-bar-and-drawer?file=index.js
 
 const drawerWidth = 260;
 
@@ -121,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+const Alert = (props:any) => <MuiAlert elevation={6} variant="filled" {...props} />;
+
 const ResponsiveDrawer = ({ ...props }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -129,9 +131,10 @@ const ResponsiveDrawer = ({ ...props }) => {
   const [logout] = useMutation(LOGOUT_USER);
   const history = useHistory();
 
-  const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('pages.dashboard');
-  const [subMenuOpen, setSubMenuOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('pages.dashboard');
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [showSnackBar, setSnackBar] = useState(false);
 
   const userDetails = JSON.parse(sessionStorage.getItem(CommonConstants.USER_DETAILS));
 
@@ -192,6 +195,14 @@ const ResponsiveDrawer = ({ ...props }) => {
         hideLoading();
       });
   };
+
+  const handleSnackBarClose = (event: any, reason: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackBar(false);
+  };
+
 
   const menuItemWithSubMenu = (item: any, index: number) => (
     <React.Fragment key={index}>
@@ -275,7 +286,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          {userDetails && <UserInfo userDetails={userDetails} /> }
+          {userDetails && <UserInfo userDetails={userDetails} />}
           <IconButton onClick={handleDrawerClose} className={classes.iconButton}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
@@ -308,6 +319,11 @@ const ResponsiveDrawer = ({ ...props }) => {
         <div className={classes.drawerHeader} />
         {props.children}
       </main>
+      <Snackbar open={showSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose}>
+        <Alert onClose={handleSnackBarClose} severity="error">
+          {t(`${NS.COMMON}:messages.sessionExpired`)}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

@@ -22,6 +22,7 @@
     },
     "messages": {
         "deleteConfirm": "શું તમે ખરેખર આ રેકોર્ડ delete કરી નાખવા માંગો છો?",
+        "sessionExpired": "સત્ર સમાપ્ત થઈ. કૃપા કરી ફરીથી Login કરો.",
         "required": {
             "name": "નામ આવશ્યક છે.",
             "description": "વર્ણન આવશ્યક છે."

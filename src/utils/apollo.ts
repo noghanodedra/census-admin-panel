@@ -1,4 +1,5 @@
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
+// import { CommonConstants } from 'constants/common';
 
 const makeApolloClient = () => {
   const client = new ApolloClient({
@@ -30,10 +31,10 @@ const makeApolloClient = () => {
               // showErrorToast(err.extensions.inputError.message);
               break;
             case 'FORBIDDEN':
-              // EventRegister.emit(EventNames.UNAUTHORISED_ACCESS, {});
+              // EventRegister.emit(CommonConstants.UNAUTHORISED_ACCESS, {});
               break;
             case 'UNAUTHENTICATED':
-              // EventRegister.emit(EventNames.UNAUTHORISED_ACCESS, {});
+              // EventRegister.emit(CommonConstants.UNAUTHORISED_ACCESS, {});
               // old token has expired throwing AuthenticationError,
               // one way to handle is to obtain a new token and
               // add it to the operation context
