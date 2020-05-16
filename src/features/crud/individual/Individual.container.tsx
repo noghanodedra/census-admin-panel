@@ -8,8 +8,9 @@ import { Switch, useHistory } from 'react-router-dom';
 import { CustomTable, Page } from 'components';
 import FormPanel from 'components/FormPanel';
 import { LoadingContext } from 'contexts';
-import { modelToObject } from 'utils/helpers';
-import { RoutesConstants, PageTitleConstants } from 'constants/common';
+import { modelToObject, setLookUpOptions } from 'utils/helpers';
+import { RoutesConstants, PageTitleConstants, CommonConstants } from 'constants/common';
+import { usePersistedState } from 'hooks';
 import { columnModel, entityModel as individualModel } from './models';
 
 const GET_DATA = gql`
@@ -52,6 +53,10 @@ const List: FunctionComponent = () => {
   const [refetch, setRefetch] = useState(null);
   const [editRecord, setEditRecord] = useState(null);
 
+  const [dropDownData, setDropDownData] = usePersistedState(CommonConstants.DROP_DOWN_DATA);
+  setLookUpOptions(individualModel, dropDownData);
+
+
   const { loading, data } = useQuery(GET_DATA, { variables: { antiCache: refetch }, fetchPolicy: 'network-only' });
 
   const [createIndividual] = useMutation(ADD_RECORD);
@@ -87,7 +92,6 @@ const List: FunctionComponent = () => {
         history.replace(`${RoutesConstants.INDIVIDUAL}`);
       })
       .catch((e: any) => {
-        console.log(e);
         hideLoading();
       });
   };
@@ -100,6 +104,7 @@ const List: FunctionComponent = () => {
         doOperation(null, deleteIndividual, id, true);
       }}
       setEditRecord={setEditRecord}
+      disableActions={true}
     />
   );
 

@@ -145,7 +145,6 @@ const List: FunctionComponent = () => {
         history.replace(`${RoutesConstants.CENSUS}`);
       })
       .catch((e: any) => {
-        console.log(e);
         hideLoading();
       });
   };

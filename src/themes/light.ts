@@ -8,7 +8,7 @@ export const lightTheme = responsiveFontSizes(
         main: '#679b9b',
       },
       secondary: {
-        main: '#e3f6f5',
+        main: '#00a1ab',
       },
     },
     overrides: {
@@ -28,7 +28,7 @@ export const lightTheme = responsiveFontSizes(
       MuiMenuItem: {
         root: {
           '&$selected': {
-            backgroundColor: '#e3f6f5',
+            backgroundColor: '#00a1ab',
           },
         },
       },

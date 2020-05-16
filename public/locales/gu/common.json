@@ -6,8 +6,6 @@
         "logout": "લૉગ આઉટ",
         "name": "નામ",
         "description": "વર્ણન",
-        "code": "કોડ",
-        "state": "રાજ્ય",
         "rowsPerPage": "પૃષ્ઠ દીઠ પંક્તિઓ",
         "addRecord": "રેકોર્ડ ઉમેરો",
         "editRecord": "રેકોર્ડ સંપાદિત કરો",
@@ -20,15 +18,13 @@
     },
     "placeholder": {
         "name": "કૃપા કરી નામ દાખલ કરો",
-        "description": "કૃપા કરી વર્ણન દાખલ કરો",
-        "code": "કોડ દાખલ કરો"
+        "description": "કૃપા કરી વર્ણન દાખલ કરો"
     },
     "messages": {
         "deleteConfirm": "શું તમે ખરેખર આ રેકોર્ડ delete કરી નાખવા માંગો છો?",
         "required": {
             "name": "નામ આવશ્યક છે.",
-            "description": "વર્ણન આવશ્યક છે.",
-            "code": "કોડ આવશ્યક છે."
+            "description": "વર્ણન આવશ્યક છે."
         },
         "length": {
             "name": "નામ ખૂબ ટૂંકું છે."

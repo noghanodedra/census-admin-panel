@@ -85,7 +85,7 @@ const FormPanel = ({
             <Button
               variant="outlined"
               size="medium"
-              color="secondary"
+              color="default"
               style={{ maxWidth: 140, marginBottom: 12 }}
               onClick={() => history.goBack()}
             >

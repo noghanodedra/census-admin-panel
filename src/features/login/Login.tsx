@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     color: theme.palette.text.primary,
   },
   card: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(8),
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -160,9 +161,6 @@ const Login = () => {
             <Link
               component="button"
               variant="body2"
-              onClick={() => {
-                console.info("I'm a button.");
-              }}
             >
               {t(`${NS.LOGIN}:label.forgotPassword`)}
             </Link>

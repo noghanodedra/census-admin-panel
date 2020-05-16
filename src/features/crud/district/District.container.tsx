@@ -90,7 +90,6 @@ const List: FunctionComponent = () => {
         history.replace(`${RoutesConstants.DISTRICT}`);
       })
       .catch((e: any) => {
-        console.log(e);
         hideLoading();
       });
   };

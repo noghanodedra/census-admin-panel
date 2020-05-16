@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectInput = ({ ...props }) => {
   const classes = useStyles();
-  const { t } = useTranslation([NS.COMMON]);
+  const { t } = useTranslation([NS.COMMON, NS.CRUD]);
 
   const {
     id, label, error, helperText, onChange, lookUp, data,

@@ -4,7 +4,49 @@ export const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: '#000',
+      main: '#bc658d',
+    },
+    secondary: {
+      main: '#8566aa',
+    },
+  },
+  overrides: {
+    MuiListItem: {
+      root: {
+        color: '#bc658d',
+        '&$selected': {
+          // backgroundColor: '#e3f6f5',
+        },
+      },
+    },
+    MuiListItemIcon: {
+      root: {
+        color: '#bc658d',
+      },
+    },
+    MuiMenuItem: {
+      root: {
+        '&$selected': {
+          backgroundColor: '#8566aa',
+        },
+      },
+    },
+    MuiIconButton: {
+      root: {
+        color: '#bc658d',
+      },
+    },
+    MuiCircularProgress: {
+      root: {
+        left: '48%',
+        position: 'absolute',
+        top: '27vh',
+      },
+    },
+    MuiTablePagination: {
+      root: {
+        backgroundColor: '#8566aa',
+      },
     },
   },
 });

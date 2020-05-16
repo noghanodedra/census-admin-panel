@@ -189,7 +189,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         history.push('/');
       })
       .catch((e) => {
-        console.log(e);
+        hideLoading();
       });
   };
 

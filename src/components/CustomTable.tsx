@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 440,
   },
   tablePagination: {
-    backgroundColor: theme.palette.grey[200],
+    // backgroundColor: theme.palette.grey[200],
   },
   tableHeader: {
     backgroundColor: theme.palette.secondary.light,
@@ -59,7 +59,8 @@ interface TableProps {
   rows: Array<any>;
   columns: Array<ColumnProps>;
   delCallback: Function;
-  setEditRecord?: Function
+  setEditRecord?: Function;
+  disableActions?:Boolean;
 }
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -97,15 +98,30 @@ const useSearchBarStyles = makeStyles((theme) => ({
 interface TableToolbarProps {
   searchValue: String;
   handleSearch: any;
+  disableActions?:Boolean;
 }
 
 const TableToolbar: FunctionComponent<TableToolbarProps> = (props) => {
   const classes = useToolbarStyles();
   const searchBarClasses = useSearchBarStyles();
-  const { searchValue, handleSearch } = props;
+  const { searchValue, handleSearch, disableActions } = props;
 
   const { t } = useTranslation([NS.LOGIN]);
   const history = useHistory();
+
+  const getAddButton = () => (
+    <>
+      <Tooltip title={t(`${NS.COMMON}:label.addRecord`)}>
+        <IconButton
+          aria-label="add record"
+          onClick={() => {
+            history.push(`${history.location.pathname}/add`);
+          }}
+        >
+          <AddBoxIcon />
+        </IconButton>
+      </Tooltip>
+    </>);
 
   return (
     <>
@@ -123,16 +139,7 @@ const TableToolbar: FunctionComponent<TableToolbarProps> = (props) => {
           </IconButton>
         </Paper>
 
-        <Tooltip title={t(`${NS.COMMON}:label.addRecord`)}>
-          <IconButton
-            aria-label="add record"
-            onClick={() => {
-              history.push(`${history.location.pathname}/add`);
-            }}
-          >
-            <AddBoxIcon />
-          </IconButton>
-        </Tooltip>
+        {!disableActions && getAddButton()}
       </Toolbar>
     </>
   );
@@ -140,7 +147,7 @@ const TableToolbar: FunctionComponent<TableToolbarProps> = (props) => {
 
 
 const CustomTable: FunctionComponent<TableProps> = ({
-  columns, rows, delCallback, setEditRecord,
+  columns, rows, delCallback, setEditRecord, disableActions,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -173,11 +180,53 @@ const CustomTable: FunctionComponent<TableProps> = ({
     setFilteredData(filteredDatas);
   };
 
+  const getActionsTableHeader = () => (
+    <TableCell
+      className={clsx(classes.tableHeader, {
+        minWidth: 40,
+        display: 'flex',
+      })}
+      style={{ paddingRight: 60 }}
+      align="right"
+    >
+      {t(`${NS.COMMON}:label.actions`)}
+    </TableCell>
+  );
+
+  const getActionsTableCell = (row: any) => (
+    <TableCell align="right">
+      <Tooltip title={t(`${NS.COMMON}:label.editRecord`)}>
+        <Button
+          color="primary"
+          size="small"
+          onClick={() => {
+            setEditRecord(row);
+            history.push(`${history.location.pathname}/edit`);
+          }}
+        >
+          <EditIcon />
+        </Button>
+      </Tooltip>
+      <Tooltip title={t(`${NS.COMMON}:label.deleteRecord`)}>
+        <Button
+          color="primary"
+          size="small"
+          onClick={() => {
+            setConfirmOpen(true);
+            setRecordId(row.id);
+          }}
+        >
+          <DeleteIcon />
+        </Button>
+      </Tooltip>
+    </TableCell>
+  );
+
   return (
     <>
       <CssBaseline />
       <Paper className={classes.root}>
-        <TableToolbar handleSearch={handleSearch} searchValue={searchValue} />
+        <TableToolbar handleSearch={handleSearch} searchValue={searchValue} disableActions={disableActions} />
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="table with records">
             <TableHead>
@@ -193,16 +242,7 @@ const CustomTable: FunctionComponent<TableProps> = ({
                     {column.i18nKey ? t(`${column.i18nKey}`) : column.label}
                   </TableCell>
                 ))}
-                <TableCell
-                  className={clsx(classes.tableHeader, {
-                    minWidth: 40,
-                    display: 'flex',
-                  })}
-                  style={{ paddingRight: 60 }}
-                  align="right"
-                >
-                  {t(`${NS.COMMON}:label.actions`)}
-                </TableCell>
+                {!disableActions && getActionsTableHeader()}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -212,39 +252,16 @@ const CustomTable: FunctionComponent<TableProps> = ({
                   // eslint-disable-next-line react/no-array-index-key
                   <TableRow hover role="checkbox" tabIndex={-1} key={`row_${page}_${index}`}>
                     {columns.map((column) => {
-                      const value = column.nestedProp ? row[column.id][column.nestedProp] : row[column.id];
+                      const value = column.nestedProp
+                        ? row[column.id][column.nestedProp]
+                        : row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {value}
                         </TableCell>
                       );
                     })}
-                    <TableCell align="right">
-                      <Tooltip title={t(`${NS.COMMON}:label.editRecord`)}>
-                        <Button
-                          color="primary"
-                          size="small"
-                          onClick={() => {
-                            setEditRecord(row);
-                            history.push(`${history.location.pathname}/edit`);
-                          }}
-                        >
-                          <EditIcon />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title={t(`${NS.COMMON}:label.deleteRecord`)}>
-                        <Button
-                          color="primary"
-                          size="small"
-                          onClick={() => {
-                            setConfirmOpen(true);
-                            setRecordId(row.id);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </Button>
-                      </Tooltip>
-                    </TableCell>
+                    {!disableActions && getActionsTableCell(row)}
                   </TableRow>
                 ))}
             </TableBody>

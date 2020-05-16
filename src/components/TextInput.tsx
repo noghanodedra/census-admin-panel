@@ -6,7 +6,7 @@ import { NameSpaces as NS } from 'constants/i18n';
 
 
 const TextInput = ({ ...props }) => {
-  const { t } = useTranslation([NS.COMMON]);
+  const { t } = useTranslation([NS.COMMON, NS.CRUD]);
 
   const { label, placeholder, helperText } = props;
 

@@ -17,7 +17,6 @@ const Dashboard = ({ ...props }) => {
     } else {
       hideLoading();
       setDropDownData(data);
-      console.log(data);
     }
   }, [loading]);
 

@@ -15,7 +15,7 @@ const columnModel = [
     label: 'Age',
     minWidth: 180,
     align: 'right',
-    i18nKey: undefined,
+    i18nKey: `${NS.CRUD}:label.age`,
     type: 'number',
   },
   {
@@ -23,7 +23,7 @@ const columnModel = [
     label: 'Education Years',
     minWidth: 180,
     align: 'right',
-    i18nKey: undefined,
+    i18nKey: `${NS.CRUD}:label.educationYears`,
     type: 'number',
   },
   {
@@ -31,11 +31,82 @@ const columnModel = [
     label: 'Hours Per Week',
     minWidth: 180,
     align: 'right',
-    i18nKey: undefined,
+    i18nKey: `${NS.CRUD}:label.hoursPerWeek`,
     type: 'number',
   },
+  /* {
+    id: 'education',
+    label: 'Education',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.education`,
+    type: 'text',
+  },
+  {
+    id: 'workClass',
+    label: 'Work Class',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.workClass`,
+    type: 'text',
+  },
+  {
+    id: 'occupation',
+    label: 'Occupation',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.occupation`,
+    type: 'text',
+  },
+  {
+    id: 'relationship',
+    label: 'Relationship',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.relationship`,
+    type: 'text',
+  },
+  {
+    id: 'caste',
+    label: 'Caste',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.caste`,
+    type: 'text',
+  },
+  {
+    id: 'incomeClass',
+    label: 'Income Class',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.incomeClass`,
+    type: 'text',
+  },
+  {
+    id: 'gender',
+    label: 'Gender',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.gender`,
+    type: 'text',
+  },
+  {
+    id: 'maritalStatus',
+    label: 'Marital Status',
+    minWidth: 170,
+    nestedProp: 'name',
+    align: 'left',
+    i18nKey: `${NS.CRUD}:label.maritalStatus`,
+    type: 'text',
+  }, */
 ];
-
 
 const entityModel = [
   {
@@ -117,6 +188,7 @@ const entityModel = [
     ],
     onInput: (e: any) => onlyNumbers(e),
   },
+
 ];
 
 export { columnModel, entityModel };

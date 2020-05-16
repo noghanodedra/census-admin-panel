@@ -84,7 +84,6 @@ const List: FunctionComponent = () => {
         history.replace(`${RoutesConstants.STATE}`);
       })
       .catch((e: any) => {
-        console.log(e);
         hideLoading();
       });
   };
