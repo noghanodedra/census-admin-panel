@@ -7,3 +7,4 @@ export { default as UserInfo } from './UserInfo';
 export { default as CustomTable } from './CustomTable';
 export { default as SelectInput } from './SelectInput';
 export { default as TextInput } from './TextInput';
+export { default as CustomSnackbar } from './CustomSnackbar';

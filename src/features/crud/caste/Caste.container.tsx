@@ -66,7 +66,7 @@ const List: FunctionComponent = () => {
     }
   }, [loading]);
 
-  if (loading || error || !!data) {
+  if (loading || error || !data) {
     return null;
   }
 

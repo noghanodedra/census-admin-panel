@@ -8,7 +8,7 @@ export const lightTheme = responsiveFontSizes(
         main: '#679b9b',
       },
       secondary: {
-        main: '#00a1ab',
+        main: '#def4f0',
       },
     },
     overrides: {
@@ -28,20 +28,13 @@ export const lightTheme = responsiveFontSizes(
       MuiMenuItem: {
         root: {
           '&$selected': {
-            backgroundColor: '#00a1ab',
+            backgroundColor: '#def4f0',
           },
         },
       },
       MuiIconButton: {
         root: {
           color: '#679b9b',
-        },
-      },
-      MuiCircularProgress: {
-        root: {
-          left: '46%',
-          position: 'absolute',
-          top: '38vh',
         },
       },
     },

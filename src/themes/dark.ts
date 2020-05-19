@@ -36,13 +36,6 @@ export const darkTheme = createMuiTheme({
         color: '#bc658d',
       },
     },
-    MuiCircularProgress: {
-      root: {
-        left: '46%',
-        position: 'absolute',
-        top: '38vh',
-      },
-    },
     MuiTablePagination: {
       root: {
         backgroundColor: '#8566aa',

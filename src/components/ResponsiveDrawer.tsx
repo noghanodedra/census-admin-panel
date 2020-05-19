@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,9 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
-  Snackbar,
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 
 import {
   ExitToApp as ExitToAppIcon,
@@ -51,6 +49,7 @@ import { useMutation } from '@apollo/react-hooks';
 
 import { NameSpaces as NS } from 'constants/i18n';
 import LocaleDropdown from 'components/LocaleDropdown';
+import CustomSnackbar from 'components/CustomSnackbar';
 import { useLoading } from 'providers/LoadingProvider';
 import { LOGOUT_USER } from 'constants/graphql-queries-mutations';
 import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
@@ -122,8 +121,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Alert = (props:any) => <MuiAlert elevation={6} variant="filled" {...props} />;
-
 const ResponsiveDrawer = ({ ...props }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -137,7 +134,11 @@ const ResponsiveDrawer = ({ ...props }) => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
 
-  EventEmitter.subscribe(CommonConstants.UNAUTHORISED_ACCESS, () => { setShowSnackBar(true); });
+  const onSessionExpiry = () => {
+    setShowSnackBar(true);
+  };
+
+  EventEmitter.subscribe(CommonConstants.UNAUTHORISED_ACCESS, onSessionExpiry);
 
   const userDetails = JSON.parse(sessionStorage.getItem(CommonConstants.USER_DETAILS));
 
@@ -188,7 +189,7 @@ const ResponsiveDrawer = ({ ...props }) => {
 
   const handleLogout = () => {
     showLoading();
-    logout({ variables: { accessToken: 'test' } })
+    logout()
       .then(({ data }) => {
         sessionStorage.removeItem(CommonConstants.USER_DETAILS);
         hideLoading();
@@ -204,6 +205,9 @@ const ResponsiveDrawer = ({ ...props }) => {
     history.push('/');
   };
 
+  useEffect(() => function cleanup() {
+    EventEmitter.unubscribe(CommonConstants.USER_DETAILS, onSessionExpiry);
+  }, []);
 
   const menuItemWithSubMenu = (item: any, index: number) => (
     <React.Fragment key={index}>
@@ -320,17 +324,7 @@ const ResponsiveDrawer = ({ ...props }) => {
         <div className={classes.drawerHeader} />
         {props.children}
       </main>
-      <Snackbar
-        open={showSnackBar}
-        autoHideDuration={6000}
-        onClose={handleSnackBarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        key="top,center"
-      >
-        <Alert onClose={handleSnackBarClose} severity="error">
-          {t(`${NS.COMMON}:messages.sessionExpired`)}
-        </Alert>
-      </Snackbar>
+      <CustomSnackbar message={t(`${NS.COMMON}:messages.sessionExpired`)} open={showSnackBar} onCloseCallback={handleSnackBarClose} />
     </div>
   );
 };
