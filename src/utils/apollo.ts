@@ -1,5 +1,7 @@
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
-// import { CommonConstants } from 'constants/common';
+
+import { CommonConstants } from 'constants/common';
+import { EventEmitter } from 'utils/events';
 
 const makeApolloClient = () => {
   const client = new ApolloClient({
@@ -19,22 +21,23 @@ const makeApolloClient = () => {
       graphQLErrors, networkError, operation, forward,
     }) => {
       if (networkError && !graphQLErrors) {
-        // console.log(`[Network error]: ${networkError}`);
+        console.log(`[Network error]: ${networkError}`);
         // showErrorToast('Network error.');
       }
       if (graphQLErrors) {
         for (const err of graphQLErrors) {
           // handle errors differently based on its error code
-          // console.log(err.extensions.code);
+          console.log(err.extensions.code);
           switch (err.extensions.code) {
             case 'BAD_USER_INPUT':
               // showErrorToast(err.extensions.inputError.message);
               break;
             case 'FORBIDDEN':
-              // EventRegister.emit(CommonConstants.UNAUTHORISED_ACCESS, {});
+              EventEmitter.dispatch(CommonConstants.UNAUTHORISED_ACCESS, {});
               break;
             case 'UNAUTHENTICATED':
-              // EventRegister.emit(CommonConstants.UNAUTHORISED_ACCESS, {});
+              EventEmitter.dispatch(CommonConstants.UNAUTHORISED_ACCESS, {});
+
               // old token has expired throwing AuthenticationError,
               // one way to handle is to obtain a new token and
               // add it to the operation context

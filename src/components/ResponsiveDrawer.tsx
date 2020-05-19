@@ -54,6 +54,7 @@ import LocaleDropdown from 'components/LocaleDropdown';
 import { useLoading } from 'providers/LoadingProvider';
 import { LOGOUT_USER } from 'constants/graphql-queries-mutations';
 import { CommonConstants, RoutesConstants, PageTitleConstants } from 'constants/common';
+import { EventEmitter } from 'utils/events';
 import UserInfo from './UserInfo';
 
 const drawerWidth = 260;
@@ -134,7 +135,9 @@ const ResponsiveDrawer = ({ ...props }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('pages.dashboard');
   const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const [showSnackBar, setSnackBar] = useState(false);
+  const [showSnackBar, setShowSnackBar] = useState(false);
+
+  EventEmitter.subscribe(CommonConstants.UNAUTHORISED_ACCESS, () => { setShowSnackBar(true); });
 
   const userDetails = JSON.parse(sessionStorage.getItem(CommonConstants.USER_DETAILS));
 
@@ -197,10 +200,8 @@ const ResponsiveDrawer = ({ ...props }) => {
   };
 
   const handleSnackBarClose = (event: any, reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackBar(false);
+    setShowSnackBar(false);
+    history.push('/');
   };
 
 
@@ -319,7 +320,13 @@ const ResponsiveDrawer = ({ ...props }) => {
         <div className={classes.drawerHeader} />
         {props.children}
       </main>
-      <Snackbar open={showSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose}>
+      <Snackbar
+        open={showSnackBar}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        key="top,center"
+      >
         <Alert onClose={handleSnackBarClose} severity="error">
           {t(`${NS.COMMON}:messages.sessionExpired`)}
         </Alert>

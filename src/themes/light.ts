@@ -39,9 +39,9 @@ export const lightTheme = responsiveFontSizes(
       },
       MuiCircularProgress: {
         root: {
-          left: '48%',
+          left: '46%',
           position: 'absolute',
-          top: '27vh',
+          top: '38vh',
         },
       },
     },

@@ -49,7 +49,10 @@ const List: FunctionComponent = () => {
   const [refetch, setRefetch] = useState(null);
   const [editRecord, setEditRecord] = useState(null);
 
-  const { loading, data } = useQuery(GET_DATA, { variables: { antiCache: refetch }, fetchPolicy: 'network-only' });
+  const { loading, error, data } = useQuery(GET_DATA, {
+    variables: { antiCache: refetch },
+    fetchPolicy: 'network-only',
+  });
 
   const [createCaste] = useMutation(ADD_RECORD);
   const [updateCaste] = useMutation(UPDATE_RECORD);
@@ -63,7 +66,7 @@ const List: FunctionComponent = () => {
     }
   }, [loading]);
 
-  if (loading) {
+  if (loading || error || !!data) {
     return null;
   }
 
