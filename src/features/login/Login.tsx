@@ -58,9 +58,9 @@ const Login = () => {
 
   const [login] = useMutation(LOGIN_USER);
 
-  const [email, setEmail] = useState({ value: 'test@test.com', error: false, helperText: '' });
+  const [email, setEmail] = useState({ value: '', error: false, helperText: '' });
   const [password, setPassword] = useState({
-    value: 'test', error: false, helperText: '', showPassword: false,
+    value: '', error: false, helperText: '', showPassword: false,
   });
 
   const handleClickShowPassword = () => {
